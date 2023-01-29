@@ -4,7 +4,7 @@ CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror 
 FLAGS 		=	-Wall -Wextra -Werror -fsanitize=address -g3
 LFLAGS		=	-lreadline
-INCLUDES	=	./includes
+INCLUDES	=	./includes/
 SRCS		=	srcs/main.c\
 				srcs/ft_strjoin.c\
 				srcs/ft_strlen.c\
@@ -73,7 +73,7 @@ $(NAME)		:	$(OBJS)
 				@$(CC) $(CFLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME) execute/libft/libft.a
 
 sanity		:	$(NAME_SAN)
-
+ 
 $(NAME_SAN)	:	$(OBJS)
 				@$(MAKE) -C ./execute/libft bonus
 				$(CC) $(FLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME_SAN) execute/libft/libft.a

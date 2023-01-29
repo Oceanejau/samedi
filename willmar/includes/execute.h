@@ -29,10 +29,10 @@
 # include "../execute/libft/libft.h"
 # include "minishell.h"
 
-#define MAIN 1
-#define PARENT 2
-#define CHILD 3
-#define HD 4
+# define MAIN 1
+# define PARENT 2
+# define CHILD 3
+# define HD 4
 
 enum	e_redir
 {

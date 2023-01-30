@@ -70,6 +70,8 @@ typedef struct s_mimi
 
 extern int		g_ret;//globale
 
+char			*ft_itoaa(int n);
+
 char	*nexy(t_mimi *shell, char *msg, int ret, char c);
 char	*char_err(char *msg, int ret);
 int		int_err(char *msg, int ret);

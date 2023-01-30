@@ -249,7 +249,7 @@ int	mani(t_mimi *shell)
 
 	while (shell->line != NULL && /*pad(shell->line, x)*/shell->line[x] != '\0')
 	{
-		printf("PAS NUL x = %d\n", x);
+	//	printf("PAS NUL x = %d\n", x);
 		
 		if (str_c(shell->instr, /*pad(shell->line, x)*/shell->line[x]) != 10
 			|| shell->line[x + 1] == '\0')

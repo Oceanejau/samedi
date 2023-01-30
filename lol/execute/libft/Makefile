@@ -68,7 +68,7 @@ HEADER		=	libft.h
 
 CPLHEADER	=	libft.h.gch
 
-CC			=	cc
+CC			=	clang
 
 CFLAGS		=	-Wall -Werror -Wextra
 

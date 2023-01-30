@@ -37,7 +37,7 @@ char	*cpy_from_two_pos(char *str, int s, int e)
 	int		x;
 
 	x = 0;
-	printf("s = %d, e = %d\n", s, e);
+	//printf("s = %d, e = %d\n", s, e);
 
 	if (str == NULL || s == e)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 16:11:55 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/29 18:19:13 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 13:55:14 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ static void	free_block(char ***block)
 static void	wait_child(char ***block)
 {
 	int	i;
-	int status;
-	int sign;
+	int	status;
+	int	sign;
 
 	i = 0;
+	status = 0;
 	while (i < nb_cmd(block) && nb_cmd(block) >= 1)
 	{
 		wait(&status);
@@ -52,7 +53,7 @@ static void	wait_child(char ***block)
 			sign = WTERMSIG(status);
 			if (sign == SIGINT)
 				ft_putstr_fd("\b\b\b", STDERR_FILENO);
-			else
+			else if (sign == SIGQUIT)
 				ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 			g_ret = sign + 128;
 		}
@@ -75,7 +76,7 @@ int	better_exec(char ***block, t_mimi *shell)
 			return (1);
 		i++;
 	}
-	wait_child(block);
 	catch_signal(PARENT);
+	wait_child(block);
 	return (free_block(block), 0);
 }

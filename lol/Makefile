@@ -1,7 +1,7 @@
 NAME		=	minishell
 NAME_SAN	=	minishellitized
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror 
+CFLAGS		=	-Wall -Wextra -Werror -g3
 FLAGS 		=	-Wall -Wextra -Werror -fsanitize=address -g3
 LFLAGS		=	-lreadline
 INCLUDES	=	./includes
@@ -19,6 +19,7 @@ SRCS		=	srcs/main.c\
 				srcs/do_white.c\
 				srcs/do_pipe.c\
 				srcs/str_comp.c\
+				srcs/ft_itoaa.c\
 				srcs/ft_is.c\
 				srcs/find_env.c\
 				srcs/int_err.c\

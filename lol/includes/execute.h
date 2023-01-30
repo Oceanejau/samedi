@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:23:17 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 16:46:59 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 13:52:47 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		exec_parent(int *pipefd, char ***block,
 			int index, int *fd_btw_pipe);
 int		preroutine(char ***block, int index, t_mimi *shell);
 int		check_same_till_equals(const char *s1, const char *s2);
+int		check_if_add(const char *s1, const char *s2);
 char	**envlist_to_env(t_list *envlist);
 void	make_envlist(t_mimi *shell);
 void	free_envchar(t_mimi *shell);
@@ -99,6 +100,7 @@ int		ft_solounset(char ***block, int index, t_mimi *shell);
 int		ft_soloexport(char ***block, int index, t_mimi *shell);
 void 	echo_comp(char ***block, int index, int i, t_mimi *shell);
 void	free_all_built(char ***block, t_mimi *shell, int *fd);
+void	add_stuff_export(char *str, t_list *temp);
 
 void	catch_signal(int mode);
 

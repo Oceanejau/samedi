@@ -28,9 +28,11 @@ char	*find_env(char *str, t_mimi *shell)
 			tmp = cpy_from_two_pos(shell->env[y], where_is_charly(shell->env[y],
 						0, '=') + 1, ft_strlen(shell->env[y]));
 			shell->s = ft_strlen(str) + 1;
+			free(str);
 			return (tmp);
 		}
 		y++;
 	}
+	free(str);
 	return (NULL);
 }

@@ -18,6 +18,7 @@ char	*join(char *s1, char *s2)
 	int		y;
 
 	x = -1;
+	printf("TEST\n");
 	if (s1 == NULL && s2 == NULL)
 	{
 		printf("NULL NULL \n");
@@ -25,9 +26,12 @@ char	*join(char *s1, char *s2)
 	}
 	else if (s1 == NULL)
 	{
-		//printf("entre dans s1 null, %s\n", s2);
+		printf("entre dans s1 null, %s\n", s2);
 		if (s1)
+		{
+			printf("JE FREE ICI \n");
 			free(s1);
+		}
 		return (s2);
 	}
 	else if (s2 == NULL)
@@ -49,5 +53,6 @@ char	*join(char *s1, char *s2)
 		free(s1);
 	if (s2)
 		free(s2);
+	printf("fin join\n");
 	return (tmp);
 }

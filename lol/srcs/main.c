@@ -54,7 +54,7 @@ static void	set_stuff(t_mimi *shell, char **envp)
 static void	reset_stuff(t_mimi *shell)
 {
 	reset_fd(shell->save_fd);
-//	free_list(shell);
+	free_list(shell);
 }
 
 int	ret_nb(int ret, char *msg, t_mimi *shell)
@@ -92,7 +92,7 @@ int	main(int ac, char **av, char **envp)
 //		new = next_hd(&shell, 2);
 //		printf("STR  ======= %s\n",new->str);
 		///show_list(&shell);
-		//better_exec(list_to_block((&shell)->list), &shell);
+		better_exec(list_to_block((&shell)->list), &shell);
 		// printf("end of exec\n");
 		reset_stuff(&shell);
 	}

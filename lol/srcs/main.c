@@ -12,6 +12,7 @@
 
 #include "execute.h"
 
+//make re && make clean && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_leak_rl ./minishell
 int	g_ret;
 
 void	show_list(t_mimi *shell)
@@ -61,7 +62,7 @@ int	ret_nb(int ret, char *msg, t_mimi *shell)
 {
 	shell->ret = ret;
 	write(2, "Error : ", 9);
-	write(2, msg, ft_strlen(msg));
+	write(2, msg, ft_strlenn(msg));
 	return (ret);
 }
 //hgfd | < f | << r | << v << f fff | hgf "hgfd" |"" | ''  | "d'f'" | g"'r'" | "'f'"g | gfd"'fg'"fd
@@ -92,7 +93,7 @@ int	main(int ac, char **av, char **envp)
 //		new = next_hd(&shell, 2);
 //		printf("STR  ======= %s\n",new->str);
 		///show_list(&shell);
-		better_exec(list_to_block((&shell)->list), &shell);
+	//	better_exec(list_to_block((&shell)->list), &shell);
 		// printf("end of exec\n");
 		reset_stuff(&shell);
 	}

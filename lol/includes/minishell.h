@@ -55,6 +55,7 @@ typedef struct s_mimi
 	int		ferme;
 	int		quote;
 	int		size;
+	void	*ptr;
 	int		ret_line;
 	t_list	*list;
 	t_list	*envlist;
@@ -62,6 +63,8 @@ typedef struct s_mimi
 	char	*args;
 	char	*line;
 	char	*command;
+	const	char	*file;
+	int				flies;
 	char	**tab;
 	char	**env;
 	char	instr[9];
@@ -70,8 +73,8 @@ typedef struct s_mimi
 
 extern int		g_ret;//globale
 
-char			*ft_itoaa(int n);
-
+char	*ft_itoaa(int n);
+char	*cut_in_it(t_mimi *shell, char *str, int x, int size);
 char	*nexy(t_mimi *shell, char *msg, int ret, char c);
 char	*char_err(char *msg, int ret);
 int		int_err(char *msg, int ret);
@@ -87,16 +90,16 @@ char	*cut_in(char *str, int x);
 char	*get_in(char *str, int x);
 void	free_list(t_mimi *shell);
 char	*cpy_from_two_pos(char *str, int s, int e);
+char	*cpy_from_two_posi(t_mimi *shell, char *str, int s, int e);
+
 int		next_kote(char *str, char c, int x);
 char	*join(char *s1, char *s2);
-//char	*check_the_bill(char *str, int x);
 char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos);
 char	*inside_kote_39(char *str, t_mimi *shell, int x, int c_pos);
 char	*goats(t_mimi *shell, int x);
 char	*dollary(char *str, t_mimi *shell, int x);
 char	*find_env(char *str, t_mimi *shell);
 char	*cpy_from_two_pos(char *str, int s, int e);
-//char	*check_the_bill(char *str, int x);
 int		char_is_in_str(char c, char *str, int x);
 int		str_c(char *str, char c);
 char	*join(char *s1, char *s2);
@@ -122,7 +125,6 @@ int		where_is_charly(char *str, int x, char c);
 void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_listnew(char *content, int x);
 t_list	*ft_lstnew(char *content);
-size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*piece_of_string(char *str, int deb, int fin);
 int		parse(t_mimi *shell);
@@ -135,5 +137,6 @@ char	*clean_space(char *str);
 int		keep_the_line(t_mimi *shell, int x, int y);
 void	parcours_la_chaine(t_mimi *shell);
 int		main(int ac, char **av, char **envp);
+size_t	ft_strlenn(const char *s);
 
 #endif

@@ -11,15 +11,15 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlenn(const char *s)
 {
 	unsigned int	size;
 
 	size = 0;
 //	printf("s = %s\n", s);
-	if (s == NULL)
-		return (size);
-	while (*s++)
+	if (!s)
+		return (printf("this is NULL\n"), size);
+	while (s && s[size] != '\0')
 		size++;
 	//printf("size = %d\n", size);
 	return (size);

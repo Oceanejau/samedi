@@ -25,7 +25,7 @@ char	*do_pipe(t_mimi *shell, int x)
 	//	printf("tmp = %s\n", tmp);
 
 		shell->type = PIPE;
-		if (ft_strlen(shell->line) == 0)
+		if (ft_strlenn(shell->line) == 0)
 		{
 			free(tmp);
 			return(nexy(shell, "syntax error near unexpected token `", 2, '|'));

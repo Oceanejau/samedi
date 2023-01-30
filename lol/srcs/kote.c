@@ -23,7 +23,7 @@ char	*johnny(char *s1, char *s2)
 		return (s2);
 	if (s2 == NULL)
 		return (s2);
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	tmp = (char *)malloc(sizeof(char) * (ft_strlenn(s1) + ft_strlenn(s2) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
 	while (s1[x] != '\0')
@@ -264,18 +264,19 @@ int	mani(t_mimi *shell)
 				free(shell->line);
 				free(str);
 			}
-			else if (str != NULL && ft_strlen(str) != 0)// && str[0] != '\0')//// else ++
+			else if (str != NULL && ft_strlenn(str) != 0)// && str[0] != '\0')//// else ++
 			{
-			//	printf("str = %s, %d\n", str, shell->type);
+				printf("str = %s, %d\n", str, shell->type);
 				ft_listadd_back(&shell->list, ft_listnew(str, shell->type));
 				// if (str[0] == 'e' && str[1] == 'x' && str[2] == 'i'
 				// 	&& str[3] == 't' && str[4] == '\0')
 				// 	exit(1);//return la derniere valeur de return!!!!!!!!!!!!!!1
+				free(shell->ptr);
 				free(str);
 			}
 		}
 	//	tmp = shell->line;
-		printf("ree\n");
+		//printf("ree\n");
 		//free(shell->line);
 		x++;
 	}

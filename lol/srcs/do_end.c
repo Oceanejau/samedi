@@ -20,16 +20,18 @@ char	*do_end(t_mimi *shell)
 
 	x = 0;
 	tmp = NULL;
-	str = shell->line;
+	str = ft_strdup(shell->line);
 	printf("do_end===================\n");
 	while (str && str[x] != '\0')
 	{
 		if (str[x] == '$')
 		{
-			printf("$$$$$\n");
+	//		printf("$$$$$\n");
 			tmp = join(tmp, dollary(str, shell, x));
+		//	free(str);
+		//	str = NULL;
 			//printf("tmp = -%s- size = %d, %d\n", tmp, shell->size, x);
-			//y = ft_strlen(dollary(str, shell, x));
+			//y = ft_strlenn(dollary(str, shell, x));
 			if (shell->size/*y*/ == 0)
 			{
 				shell->line = NULL;
@@ -37,14 +39,19 @@ char	*do_end(t_mimi *shell)
 			}
 		//	printf("%s\n", str);
 			//exit (0);
-			if (shell->line == NULL && str )
+			if (shell->line == NULL || !str)
 			{
 				printf("STRRTRTRTRT\n");
 				//free(str);
 				return (tmp);
 			}
-			printf("str = -%s- -%s-\n", str, shell->line);
-			str = cut_from_pos(str, x + /*y*/shell->size);
+			shell->line = NULL;
+			return (tmp);
+		//	printf("str = -%s- \n", shell->line);
+		//	if (shell->size == (int)ft_strlenn(str))
+		//		shell->line = NULL;
+		//	if (str)
+		//		str = cut_from_pos(str, x + /*y*/shell->size);
 		}
 		else
 		{

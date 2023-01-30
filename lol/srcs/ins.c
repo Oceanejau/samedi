@@ -18,15 +18,60 @@ char	*cut_in(char *str, int x)
 
 	y = 0;
 	//printf("cut_in %s, %d\n", str, x);
+	if (str[0] == '\0')
+	{
+		// free(str);
+		return (NULL);
+	}
+	if ((int)ft_strlenn(str) <= x)
+	{
+		printf("je free ici\n");
+		// free(str);
+	// 	str = NULL;
+		return (NULL);
+	}
+	while (str[x + y] != '\0')
+		y++;
+	if (y == 0)
+	{
+		// free(str);
+		return (NULL);
+	}
+	tmp = (char *)malloc(sizeof(char) * (y + 1));
+	if (!tmp)
+		return (char_err("failed to allocate memory", 2));
+	y = 0;
+	while (str[x + y] != '\0')
+	{
+		tmp[y] = str[x + y];
+		y++;
+	}
+	tmp[y] = '\0';
+	// free(str);
+	printf("cut in tmp = %s\n", tmp);
+	return (tmp);
+}
+
+char	*cut_in_it(t_mimi *shell, char *str, int x, int size)
+{
+	int		y;
+	char	*tmp;
+
+	
+	y = 0;
+//	printf("cut_in %s, %d, %s\n", str, x, shell->line);
 	if (str == NULL)
 	{
 	//	free(str);
 		return (NULL);
 	}
-	if ((int)ft_strlen(str) <= x)
+	if ((int)ft_strlenn(str) <= x)
 	{
 		printf("je free ici\n");
 		free(str);
+		if (shell->s == size)
+			shell->line = NULL;
+	// 	str = NULL;
 		return (NULL);
 	}
 	while (str[x + y] != '\0')

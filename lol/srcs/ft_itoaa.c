@@ -76,7 +76,7 @@ char			*ft_itoaa(int n)
 	}
 	str[i++] = (nb % 10 + '0');
 	str[i++] = '\0';
-	ft_rev_str(str, ft_strlen(str));
+	ft_rev_str(str, ft_strlenn(str));
 	printf("itoa renvoie -%s-, %d\n", str, n);
 	return (str);
 }

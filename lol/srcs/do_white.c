@@ -23,7 +23,11 @@ char	*do_white(t_mimi *shell, int x)
 	y = next_kote(tmp, '$', 0);
 	printf("Y = %d\n", y);
 	if (y >= 0)
+	{
 		tmp = join(NULL, dollary(tmp, shell, y));
+		//free(tmp);
+		//tmp = NULL;
+	}
 	while (shell->line != NULL && shell->line[x] != '\0' && str_c(shell->instr, shell->line[x]) < 2)
 		x++;
 	printf("reend tmp = -%s-, shell->line =-%s-\n", tmp, shell->line);

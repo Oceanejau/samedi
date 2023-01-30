@@ -16,20 +16,15 @@ char	*cut_from_pos(char *str, int e)
 	char	*tmp;
 	int		x;
 
-/*ft_putstr_fd("str :", 2);
-ft_putstr_fd(str, 2);
-ft_putstr_fd("\n", 2);
-
-exit (0);*/
-printf("STR cut from 2 %s\n", str);
-	if (str == NULL || e >= (int)ft_strlen(str))
+//printf("str===== %s\n", str);
+	if (str == NULL)// || (str && e >= (int)ft_strlenn(str)))
 	{
-		printf("entre \n");
-		free(str);////////
+	//	printf("entre \n");
+	//	free(str);////////
 		return (NULL);
 	}
 	x = 0;
-	tmp = (char *)malloc(sizeof(char) * (((int)ft_strlen(str) - e) + 1));
+	tmp = (char *)malloc(sizeof(char) * (((int)ft_strlenn(str) - e) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
 	while (str[e] != '\0')
@@ -38,7 +33,7 @@ printf("STR cut from 2 %s\n", str);
 	}
 	free(str);
 	tmp[x] = '\0';
-	if (ft_strlen(tmp) == 0)
+	if (ft_strlenn(tmp) == 0)
 	{
 		free(tmp);
 		return (NULL);

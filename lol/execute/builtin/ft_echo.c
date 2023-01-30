@@ -37,10 +37,10 @@ static void	free_block(char ***block)
 static int	deal_flags(char *str)
 {
 	int	i;
-	int	flag;
+	//int	flag;
 
 	i = 0;
-	flag = 1;
+//	flag = 1;
 	if (str[0] == '-' && str[1] == 'n')
 	{
 		i = 2;

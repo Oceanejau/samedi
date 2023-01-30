@@ -28,7 +28,10 @@ t_list	*ft_lstnew(char *content)
 	size = ft_memlen(content);
 	newblock->str = (char *)malloc(sizeof(char) * size + 1);
 	if (!newblock->str)
+	{
+		//free_list(newblock);
 		return ((t_list *)char_err("failed to allocate memory", 2));
+	}
 	ft_memcpy(newblock->str, content, size);
 	newblock->next = NULL;
 	return (newblock);

@@ -35,6 +35,8 @@ int	deal_with_redir(char ***block, int index, int n, t_mimi *shell)
 {
 	int	fd[2];
 
+	fd[0] = 0;
+	fd[1] = 0;
 	if (is_redir(block, index, n, shell) == INFILE)
 		return (infile_modif(block[index][n + 1], fd[0]));
 	if (is_redir(block, index, n, shell) == D_INFILE)
@@ -43,5 +45,7 @@ int	deal_with_redir(char ***block, int index, int n, t_mimi *shell)
 		return (outfile_modif(block[index][n + 1], fd[1]));
 	if (is_redir(block, index, n, shell) == D_OUTFILE)
 		return (outfile_dou_modif(block[index][n + 1], fd[1]));
+	return (0);
+	//printf("LOL\n");
 	return (0);
 }

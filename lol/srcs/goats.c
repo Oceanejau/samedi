@@ -28,7 +28,7 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 	if (y >= 0)
 		tmp = join(NULL, dollary(tmp, shell, next_kote(tmp, '$', 0)));
 	tmpp = join(NULL, cpy_from_two_pos(shell->line, c_pos + 1, x));
-	printf("tmpp = ,%s, %d\n", tmpp, (int)ft_strlen(tmpp));
+	printf("tmpp = ,%s, %d\n", tmpp, (int)ft_strlenn(tmpp));
 	shell->line = join(NULL, cut_in(shell->line, x + 1));
 	if (next_kote(tmpp, '$', 0) >= 0)
 		tmpp = join(NULL, dollary(tmpp, shell, next_kote(tmpp, '$', 0)));

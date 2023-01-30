@@ -62,10 +62,16 @@ char	*dollary(char *str, t_mimi *shell, int x)
 {
 	char	*tmp;
 	int		y;
+//	char	*str;
+	char *copy;
 
 	tmp = NULL;
-	shell->size = ft_strlen(str);
-	while (str && ft_strlen(str) > 0 && (str[x] && str[x] != '\0'))
+
+	//str = cpy_from_two_pos(strr, 0, ft_strlenn(strr));
+//	free(strr);
+	shell->size = ft_strlenn(str);
+	shell->s = ft_strlenn(shell->line);
+	while (str && ft_strlenn(str) > 0 && (str[x] && str[x] != '\0'))
 	{
 		printf("debut -- str = %s, tmp =%s\n", str, tmp);
 		if (str[x] == '$')
@@ -77,7 +83,11 @@ char	*dollary(char *str, t_mimi *shell, int x)
 			{
 				if (x > 1)
 					tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
-				str = cut_in(str, x + 1);
+				copy = ft_strdup(str);
+				free(str);
+				str = cut_in(copy, x + 1);//malloc ici et perdu ensuite
+				free(copy);
+				// str = cut_in(str, x + 1);
 			//	printf("Cetait des chiffres tmp =-%s-, str = -%s-\n",tmp, str);/////////////////////////
 			}
 			else if (ft_is_nb(str[x]) != 1)
@@ -89,7 +99,7 @@ char	*dollary(char *str, t_mimi *shell, int x)
 					tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
 //printf("$? = str = -%s- tmp = -%s- line = -%s- x = %d\n", str, tmp, shell->line, x);
 					tmp = join(tmp, ft_itoaa(g_ret));
-					str = join(NULL, cut_in(str, x + y + 1));
+					// str = join(NULL, cut_in(str, x + y + 1));
 				//	printf("tmp = %s, str %s\n", tmp, str);
 				}
 				else if (str && str[x + y] != '\0' && str[x + y] != '$' && str_c(shell->instr, str[x + y]) == 10)
@@ -97,18 +107,36 @@ char	*dollary(char *str, t_mimi *shell, int x)
 				else if (y == 0)
 					return (join(tmp, malicious("$")));
 			//	printf("BEFORE\n");
-				tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
-			//	printf("==========tmp = %s, str = %s\n", tmp, str);
+				//tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
+				printf("==========tmp = %s, str = %s\n", tmp, str);
 				tmp = join(tmp, find_env(cpy_from_two_pos(str, x, x + y), shell));
 				if (str != NULL && str[x + 1] == '$')
 				{
-						//	tmp = join(tmp, "1371615");
-						shell->s = 1;
+					printf("BEF = %s\n", str);
+					copy = ft_strdup(str);
+				free(str);
+				str = cut_in(copy, x);//malloc ici et perdu ensuite
+				free(copy);
+					// str = cut_in(str, x);
+					printf("NEXT = %s\n", str);
+					shell->s = 1;
 				}
 				printf("STR1 = -%s\n", str);
-				str = join(NULL, cut_in(str, x + y));
-				//if (str == NULL)
-				//	shell->line = NULL;
+
+				copy = ft_strdup(str);
+				free(str);
+				str = cut_in(copy, x + y);//malloc ici et perdu ensuite
+				free(copy);
+
+
+			//	str = cpy_from_two_posi(shell, str, x + y, ft_strlenn(str));
+			//	free(str);
+			//	str = strr;
+				if (str == NULL && shell->size == shell->s)
+				{
+					free(shell->line);
+					shell->line = NULL;
+				}
 				printf("STR2 = -%s\n", str);
 			}
 			x = 0;
@@ -118,28 +146,28 @@ char	*dollary(char *str, t_mimi *shell, int x)
 		{
 			printf("JOIN\n");
 			tmp = join(tmp, cpy_from_two_pos(str, 0, x + 1));
-			str = cut_in(str, x + 1);
+			copy = ft_strdup(str);
+				free(str);
+				str = cut_in(copy, x + 1);//malloc ici et perdu ensuite
+				free(copy);
+			// str = cut_in(str, x + 1);
 		//	printf("Passe dans le foutu join, tmp = %s, str %s\n", tmp, str);
 		}
 	//	printf("else\n");
 	//	printf(" %d -%s- -%s-\n", x, str, tmp);
 		if (str)
 		{
-			str = join(NULL, cpy_from_two_pos(str, x, ft_strlen(str)));
-			printf("rentre dan if\n");
+			// printf("dollar:before join:str=%p\n", str);
+			// // str = join(NULL, cpy_from_two_pos(str, x, ft_strlenn(str)));
+			// printf("dollar:after join:str=%p\n", str);
+			// printf("rentre dan if\n");
 		}
 		//printf("str =================== %s, %s\n", str, tmp);
 		x = 0;
 	}
 	//	printf("iDOLLAR     tmp = -%s- line = -%s- str = -%s-\n", tmp, shell->line, str);
-	shell->size = shell->size - ft_strlen(str);
+	shell->size = shell->size - ft_strlenn(str);
 	printf("size == %d\n", shell->size);
-	if (str == NULL)
-	{
-		printf("STR est FREE, \n");
-		//if (shell->line)
-		//	free(shell->line);
-		//shell->line = NULL;
-	}
+	free(str);
 	return (tmp);
 }

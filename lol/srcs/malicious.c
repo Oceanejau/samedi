@@ -17,6 +17,7 @@ char	*malicious(const char *str)
 	int		x;
 
 	x = 0;
+	printf("MALICIOUS\n");
 	tmp = (char *)malloc(sizeof(char) * (ft_strlenn(str) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));

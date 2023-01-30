@@ -105,14 +105,16 @@ char	*dollary(char *str, t_mimi *shell, int x)
 				else if (str && str[x + y] != '\0' && str[x + y] != '$' && str_c(shell->instr, str[x + y]) == 10)
 					return (char_err("something went wrong with this variable", 2));
 				else if (y == 0)
-					return (join(tmp, malicious("$")));
+				{
+					tmp = join(tmp, malicious("$"));
+				}
 			//	printf("BEFORE\n");
 				//tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
-				printf("==========tmp = %s, str = %s\n", tmp, str);
+				//printf("==========tmp = %s, str = %s\n", tmp, str);
 				tmp = join(tmp, find_env(cpy_from_two_pos(str, x, x + y), shell));
 				if (str != NULL && str[x + 1] == '$')
 				{
-					printf("BEF = %s\n", str);
+				//	printf("BEF = %s\n", str);
 					copy = ft_strdup(str);
 				free(str);
 				str = cut_in(copy, x);//malloc ici et perdu ensuite
@@ -155,13 +157,13 @@ char	*dollary(char *str, t_mimi *shell, int x)
 		}
 	//	printf("else\n");
 	//	printf(" %d -%s- -%s-\n", x, str, tmp);
-		if (str)
+		/*if (str)
 		{
 			// printf("dollar:before join:str=%p\n", str);
 			// // str = join(NULL, cpy_from_two_pos(str, x, ft_strlenn(str)));
 			// printf("dollar:after join:str=%p\n", str);
 			// printf("rentre dan if\n");
-		}
+		}*/
 		//printf("str =================== %s, %s\n", str, tmp);
 		x = 0;
 	}

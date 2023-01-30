@@ -61,8 +61,9 @@ char			*ft_itoaa(int n)
 
 	nb = n;
 	i = 0;
-	if (!(str = (char *)malloc(sizeof(char) * (ft_diz(nb) + 1))))
-		return (0);
+	str = (char *)malloc(sizeof(char) * (ft_diz(nb) + 1));
+	if (!str)
+		return (NULL);
 	ft_bzero(str, ft_diz(nb) + 1);
 	if (nb < 0)
 	{

@@ -68,6 +68,13 @@ char	*goty(t_mimi *shell, char *msg, int ret, char c)
 	return (NULL);
 }
 
+char	*next_goats(t_mimi *shell, char *tmp, int x)
+{
+	tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
+	shell->line = join(NULL, cut_in(shell->line, x));
+	return (tmp);
+}
+
 char	*goats(t_mimi *shell, int x)
 {
 	char	*tmp;
@@ -77,7 +84,7 @@ char	*goats(t_mimi *shell, int x)
 	c_pos = -1;
 	tmp = NULL;
 	x = 0;
-	printf("GOATS, %s, %d\n", shell->line, x);
+//	printf("GOATS, %s, %d\n", shell->line, x);
 	while (shell->line != NULL && shell->line[x] != '\0' && str_c(shell->instr, shell->line[x]) >= 2)
 	{
 		if (c_pos < 0 && (shell->line[x] == 34 || shell->line[x] == 39))
@@ -97,15 +104,16 @@ char	*goats(t_mimi *shell, int x)
 		x++;
 	}
 	if (c_pos == -1 && shell->line)
-	{
-		printf("ooijoo %s,%d\n",shell->line, x);
+		tmp = next_goats(shell, tmp, x);
+/*	{
+		//printf("ooijoo %s,%d\n",shell->line, x);
 		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
 		shell->line = join(NULL, cut_in(shell->line, x));
-		printf("ooijoo %s -%s-,%d\n",shell->line, tmp, x);
+	//	printf("ooijoo %s -%s-,%d\n",shell->line, tmp, x);
 
-	}
+	}*/
 	else if (c_pos != -1)
 		return (goty(shell, "missing kote -", 2, c));
-	printf("tmp = %s, shell->lnie = %s\n", tmp, shell->line);
+//	printf("tmp = %s, shell->lnie = %s\n", tmp, shell->line);
 	return(tmp);
 }

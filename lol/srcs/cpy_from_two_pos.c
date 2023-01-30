@@ -17,7 +17,8 @@ char	*cpy_from_two_pos_free(char *str, int s, int e)
 	int		x;
 
 	x = 0;
-	if (str == NULL)
+	//printf("s = %d, e = %d\n", s, e);
+	if (str == NULL || s == e)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));
 	if (!tmp)
@@ -36,7 +37,9 @@ char	*cpy_from_two_pos(char *str, int s, int e)
 	int		x;
 
 	x = 0;
-	if (str == NULL)
+	printf("s = %d, e = %d\n", s, e);
+
+	if (str == NULL || s == e)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));
 	if (!tmp)

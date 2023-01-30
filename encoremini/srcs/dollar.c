@@ -5,17 +5,19 @@ int	str_c(char *str, char c)
 	int	x;
 
 	x = 0;
+	pritnf("STR_C     dddddddddddd\n");
 	if (c == '\0')
 		return (7);
 	while (str[x] != '\0')
 	{
 		if (str[x] == c)
 		{
-		//	printf("sort ici, c = -%c-\n", str[x]);
+			printf("sort ici, c = -%c-\n", str[x]);
 			return (x);
 		}
 		x++;
 	}
+	pritnf("else\n");
 	return (10);
 }
 

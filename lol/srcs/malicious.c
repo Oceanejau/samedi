@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*malicious(char *str)
+char	*malicious(const char *str)
 {
 	char	*tmp;
 	int		x;
@@ -26,5 +26,7 @@ char	*malicious(char *str)
 		x++;
 	}
 	tmp[x] = '\0';
+//	printf("tmp = %s, %s\n", tmp, str);
+	//free(str);
 	return (tmp);
 }

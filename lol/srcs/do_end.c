@@ -16,7 +16,7 @@ char	*do_end(t_mimi *shell)
 	char	*str;
 	char	*tmp;
 	int		x;
-	int		y;
+//	int		y;
 
 	x = 0;
 	tmp = NULL;
@@ -25,14 +25,18 @@ char	*do_end(t_mimi *shell)
 	{
 		if (str[x] == '$')
 		{
+			printf("$$$$$\n");
 			tmp = join(tmp, dollary(str, shell, x));
-			y = ft_strlen(dollary(str, shell, x));
-			if (y == 0)
+			printf("tmp = -%s- size = %d, %d\n", tmp, shell->size, x);
+			//y = ft_strlen(dollary(str, shell, x));
+			if (shell->size/*y*/ == 0)
 			{
 				shell->line = NULL;
 				return (tmp);
 			}
-			str = cut_from_pos(str, x + y);
+			printf("%s\n", str);
+			exit (0);
+			str = cut_from_pos(str, x + /*y*/shell->size);
 		}
 		else
 		{
@@ -41,6 +45,7 @@ char	*do_end(t_mimi *shell)
 		}
 		x = 0;
 	}
+	printf("finde de while\n");
 	shell->line = NULL;
 	if (tmp != NULL)
 		return (tmp);

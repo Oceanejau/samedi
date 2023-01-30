@@ -217,33 +217,54 @@ void	ft_listadd_back(t_list **alst, t_list *new)
 	}
 }
 
+char	pad(char *s, int x)
+{
+	char	*copy;
+	int		i;
+
+	i = 0;
+	if (s != NULL)
+	{
+		copy = s;
+		while (*copy != '\0' && i < x)
+			copy++;
+	}
+	if (i == x)
+		return (*copy);
+	return (0);
+}
+
 int	mani(t_mimi *shell)
 {
 	char	*str;
 	int		x;
+//	char	*tmp;
 
 	str = NULL;
+//	tmp = shell->line;
 	shell->quote = 0;
 	shell->nb_hd = 0;
 	x = 0;
 	//printf("MANI= -%s-\n", shell->line);
-	while (shell->line != NULL && shell->line[x] != '\0')
+
+	while (shell->line != NULL && /*pad(shell->line, x)*/shell->line[x] != '\0')
 	{
-		//printf("PAS NUL\n");
-		if (str_c(shell->instr, shell->line[x]) != 10
+		printf("PAS NUL x = %d\n", x);
+		
+		if (str_c(shell->instr, /*pad(shell->line, x)*/shell->line[x]) != 10
 			|| shell->line[x + 1] == '\0')
 		{
 			str = repartiteur(shell, x, str);
 			x = -1;
-		//	printf("strrrrr = %s, %s\n", str, shell->line);
+		//	printf("strrrrr = -%s-, -%s-, -%s-\n", str, shell->line, tmp);
 			if (str == NULL && shell->ret == -1)
 			{
-			//	printf("PASSE\n");
+				printf("PASSE\n");
 				free_list(shell);
 				free(shell->line);
 				free(str);
 			}
-			if (str != NULL && str[0] != '\0')
+			else if (str != NULL && ft_strlen(str) != 0)// && str[0] != '\0')//// else ++
 			{
 			//	printf("str = %s, %d\n", str, shell->type);
 				ft_listadd_back(&shell->list, ft_listnew(str, shell->type));
@@ -253,6 +274,8 @@ int	mani(t_mimi *shell)
 				free(str);
 			}
 		}
+	//	tmp = shell->line;
+		printf("ree\n");
 		//free(shell->line);
 		x++;
 	}

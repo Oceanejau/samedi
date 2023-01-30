@@ -13,11 +13,16 @@
 
 int	next_kote(char *str, char c, int x)
 {
+	printf("next kote x = %d\n", x);
 	while (str && str[x] != '\0')
 	{
 		if (str[x] == c)
+		{
+			printf("x = %d, c = -%c-\n", x, c);
 			return (x);
+		}
 		x++;
 	}
+	printf("SORT\n");
 	return (-1);
 }

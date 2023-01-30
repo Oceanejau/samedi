@@ -80,7 +80,7 @@ char	*johnny(char *s1, char *s2);
 char	*repartiteur(t_mimi *shell, int x, char *str);
 char	*do_end(t_mimi *shell);
 char	*cut_from_pos(char *str, int e);
-char	*malicious(char *str);
+char	*malicious(const char *str);
 char	*cut_in(char *str, int x);
 char	*get_in(char *str, int x);
 void	free_list(t_mimi *shell);

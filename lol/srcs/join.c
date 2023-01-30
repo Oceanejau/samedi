@@ -19,12 +19,24 @@ char	*join(char *s1, char *s2)
 
 	x = -1;
 	if (s1 == NULL && s2 == NULL)
+	{
+		printf("NULL NULL \n");
 		return (NULL);
+	}
 	else if (s1 == NULL)
+	{
+		//printf("entre dans s1 null, %s\n", s2);
+		if (s1)
+			free(s1);
 		return (s2);
+	}
 	else if (s2 == NULL)
+	{
+		free(s2);
 		return (s1);
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	}
+	printf("s1 = -%s-, s2 = -%s-\n", s1, s2);
+	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlen(s1) + (int)ft_strlen(s2) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
 	while (s1[++x] != '\0')

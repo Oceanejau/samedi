@@ -55,6 +55,8 @@ char	*do_red_next(t_mimi *shell, char *tmp, int x, char c)
 		free(shell->line);
 		shell->line = NULL;
 		return (NULL);*/
+		//printf("passe\n");
+		free(tmp);
 		return (nexty(shell, "syntax error near unexpected token `newline'", 2));
 	}
 	else if (shell->line[0] != c)
@@ -63,6 +65,7 @@ char	*do_red_next(t_mimi *shell, char *tmp, int x, char c)
 			shell->line[0]);
 		free(shell->line);
 		shell->line = NULL;*/
+		free(tmp);
 		return (nexy(shell, "syntax error near unexpected token `", 2, c));
 	}
 	else if (shell->line[0] != '\0' && shell->line[0] == c && (shell->line[1]
@@ -73,6 +76,7 @@ char	*do_red_next(t_mimi *shell, char *tmp, int x, char c)
 			shell->line[1], shell->line[2]);
 		free(shell->line);
 		shell->line = NULL;*/
+		free(tmp);
 		return (neyy(shell, "syntax error near unexpected token `", 2, c));
 	}
 	else if (shell->line[0] != '\0' && shell->line[0] == c && (shell->line[1]
@@ -82,6 +86,7 @@ char	*do_red_next(t_mimi *shell, char *tmp, int x, char c)
 			shell->line[1]);
 		free(shell->line);
 		shell->line = NULL;*/
+		free(tmp);
 		return (nexy(shell, "syntax error near unexpected token `", 2, c));
 	}
 	else
@@ -95,13 +100,15 @@ char	*do_red_next(t_mimi *shell, char *tmp, int x, char c)
 	return (tmp);
 }
 
-char	*redir_vide(t_mimi *shell)
+char	*redir_vide(t_mimi *shell, char *tmp)
 {
 /*	printf("minishell: syntax error near unexpected token `newline'\n");
 	//shell->ret = -1;
 	free(shell->line);
 	shell->line = NULL;
 	//free_list(shell);*/
+	printf("vide\n");
+	free(tmp);
 	return (nexty(shell, "syntax error near unexpected token `newline'", 2));
 }
 
@@ -140,7 +147,7 @@ char	*do_red(t_mimi *shell, int x, char c)
 	tmp = get_in(shell->line, x);
 	shell->line = cut_in(shell->line, x);
 	if (shell->line == NULL)
-		return (redir_vide(shell));
+		return (redir_vide(shell, tmp));
 	if (shell->line && (shell->line[0] == '<' || shell->line[0] == '>'))
 	{
 		shell->type = REDIR;

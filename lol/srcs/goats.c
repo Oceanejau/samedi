@@ -19,6 +19,7 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 	int		y;
 
 	tmp = NULL;
+	printf("debut 34 str = -%s-,x =  %d, cpos = %d\n", str, x, c_pos);
 	if (c_pos > 0 && shell->line[c_pos - 1] == '$')
 		tmp = join(tmp, cpy_from_two_pos(shell->line, 0, c_pos - 1));
 	else
@@ -27,13 +28,16 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 	if (y >= 0)
 		tmp = join(NULL, dollary(tmp, shell, next_kote(tmp, '$', 0)));
 	tmpp = join(NULL, cpy_from_two_pos(shell->line, c_pos + 1, x));
+	printf("tmpp = ,%s, %d\n", tmpp, (int)ft_strlen(tmpp));
 	shell->line = join(NULL, cut_in(shell->line, x + 1));
 	if (next_kote(tmpp, '$', 0) >= 0)
 		tmpp = join(NULL, dollary(tmpp, shell, next_kote(tmpp, '$', 0)));
+	//printf("TEST1 = tmp = %s, shell = %s, str %s, y = %d, tmpp=%s\n", tmp, shell->line, str, y, tmpp);
+
 	tmp = join(tmp, tmpp);
 	tmp = join(str, tmp);
 
-	printf("TEST = tmp = %s, shell = %s\n", tmp, shell->line);
+	//printf("TEST2 = tmp = %s, shell = %s, str %s, tmpp = %s\n", tmp, shell->line, str, tmpp);
 	return (tmp);
 }
 
@@ -73,7 +77,7 @@ char	*goats(t_mimi *shell, int x)
 	c_pos = -1;
 	tmp = NULL;
 	x = 0;
-//	printf("GOATS, %s\n", shell->line);
+	printf("GOATS, %s, %d\n", shell->line, x);
 	while (shell->line != NULL && shell->line[x] != '\0' && str_c(shell->instr, shell->line[x]) >= 2)
 	{
 		if (c_pos < 0 && (shell->line[x] == 34 || shell->line[x] == 39))

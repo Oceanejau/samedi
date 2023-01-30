@@ -18,8 +18,13 @@ char	*cut_in(char *str, int x)
 
 	y = 0;
 	printf("cut_in %s, %d\n", str, x);
-	if (str == NULL || (int)ft_strlen(str) <= x)
+	if (str == NULL)
 		return (NULL);
+	if ((int)ft_strlen(str) <= x)
+	{
+		free(str);
+		return (NULL);
+	}
 	while (str[x + y] != '\0')
 		y++;
 	if (y == 0)
@@ -35,6 +40,7 @@ char	*cut_in(char *str, int x)
 	}
 	tmp[y] = '\0';
 	free(str);
+	printf("cut in tmp = %s\n", tmp);
 	return (tmp);
 }
 
@@ -44,6 +50,9 @@ char	*get_in(char *str, int x)
 	int		y;
 
 	y = 0;
+	printf("str = %s, x = %d\n", str, x);
+	if (x == 0)
+		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * (x + 1));
 	if (tmp == NULL)
 		return (NULL);

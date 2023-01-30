@@ -5,17 +5,19 @@ int	str_c(char *str, char c)
 	int	x;
 
 	x = 0;
+	printf("str_c cccccccc, |%s|, |%c|\n", str, c);
 	if (c == '\0')
 		return (7);
 	while (str[x] != '\0')
 	{
 		if (str[x] == c)
 		{
-		//	printf("sort ici, c = -%c-\n", str[x]);
+			printf("sort ici, c = -%c-, x = %d\n", str[x], x);
 			return (x);
 		}
 		x++;
 	}
+	printf("else\n");
 	return (10);
 }
 
@@ -85,7 +87,7 @@ char	*dollary(char *str, t_mimi *shell, int x)
 		}*/
 		tmp = NULL;
 		shell->size = ft_strlen(str);
-		while (str && ft_strlen(str) > 0 && str[x] != '\0')
+		while (str && ft_strlen(str) > 0 && (str[x] && str[x] != '\0'))
 		{
 				//printf("debut -- str = %s, tmp =%s\n", str, tmp);
 				if (str[x] == '$')
@@ -163,7 +165,10 @@ char	*dollary(char *str, t_mimi *shell, int x)
 
 		if (str == NULL)
 		{
-			free(str);
+			printf("STR est FREE\n");
+		//	free(str);
+			free(shell->line);
+			shell->line = NULL;
 		//	shell->line = NULL;
 		}
 		//	free(str);///

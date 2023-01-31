@@ -67,6 +67,7 @@ typedef struct s_mimi
 	t_list		*list;
 	t_list		*envlist;
 	char		c;
+	char		*tmp;
 	char		*str;
 	char		*args;
 	char		*line;

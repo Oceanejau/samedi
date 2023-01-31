@@ -31,14 +31,9 @@ char	*do_end(t_mimi *shell)
 				return (tmp);
 			}
 			if (shell->line == NULL /*&& str*/ || !str)
-			{
 				return (tmp);
-			}
-			//////
 			shell->line = NULL;
 			return (tmp);
-			///////
-			//str = cut_from_posi(str, x + /*y*/shell->size);
 		}
 		else
 		{

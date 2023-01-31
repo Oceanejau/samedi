@@ -16,16 +16,9 @@ char	*cut_from_pos(char *str, int e)
 	char	*tmp;
 	int		x;
 
-/*ft_putstr_fd("str :", 2);
-ft_putstr_fd(str, 2);
-ft_putstr_fd("\n", 2);
-
-exit (0);*/
-//printf("STR cut from 2 %s\n", str);
 	if (str == NULL || e >= (int)ft_strlenn(str))
 	{
-	//	printf("entre \n");
-		free(str);////////
+		free(str);
 		return (NULL);
 	}
 	x = 0;

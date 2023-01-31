@@ -16,11 +16,9 @@ size_t	ft_strlenn(const char *s)
 	unsigned int	size;
 
 	size = 0;
-//	printf("s = %s\n", s);
 	if (!s)
 		return (size);
 	while (s && s[size] != '\0')
 		size++;
-	//printf("size = %d\n", size);
 	return (size);
 }

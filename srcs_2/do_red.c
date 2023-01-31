@@ -31,6 +31,18 @@ char	*nexy(t_mimi *shell, char *msg, int ret, char c)
 	return (NULL);
 }
 
+char	*ney(t_mimi *shell, char *msg, int ret, char c)
+{
+	free(shell->line);
+	shell->line = NULL;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("'\n", 2);
+	g_ret = ret;
+	return (NULL);
+}
+
 char	*neyy(t_mimi *shell, char *msg, int ret, char c)
 {
 	free(shell->line);

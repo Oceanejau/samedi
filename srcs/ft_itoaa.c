@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoaa.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ojauregu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/31 05:02:12 by ojauregu          #+#    #+#             */
+/*   Updated: 2023/01/31 05:02:16 by ojauregu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "minishell.h"
 
-static void		ft_rev_str(char *str, int size)
+static void	ft_rev_str(char *str, int size)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (str[0] == '-')
@@ -29,10 +40,10 @@ static void		ft_rev_str(char *str, int size)
 	}
 }
 
-static int		ft_diz(long nb)
+static int	ft_diz(long nb)
 {
-	int n;
-	int res;
+	int	n;
+	int	res;
 
 	n = 1;
 	res = 0;
@@ -53,7 +64,7 @@ static int		ft_diz(long nb)
 	return (res);
 }
 
-char			*ft_itoaa(int n)
+char	*ft_itoaa(int n)
 {
 	long	nb;
 	char	*str;
@@ -78,6 +89,5 @@ char			*ft_itoaa(int n)
 	str[i++] = (nb % 10 + '0');
 	str[i++] = '\0';
 	ft_rev_str(str, ft_strlenn(str));
-	printf("itoa renvoie -%s-, %d\n", str, n);
 	return (str);
 }

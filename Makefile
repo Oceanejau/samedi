@@ -33,6 +33,7 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs/ft_itoaa.c\
 				srcs/ft_strlen.c\
 				srcs/ins.c\
+				srcs/str_c.c\
 				srcs/join.c\
 				srcs/char_err.c\
 				srcs/malicious.c\

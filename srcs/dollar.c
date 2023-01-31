@@ -1,45 +1,61 @@
 #include "minishell.h"
 
-int	str_c(char *str, char c)
+char	*dol_else(char *tmp, char *str, int x)
 {
-	int	x;
+	char	*copy;
 
-	x = 0;
-	//printf("str_c cccccccc, |%s|, |%c|\n", str, c);
-	if (c == '\0')
-		return (7);
-	while (str[x] != '\0')
+	if (str != NULL)
 	{
-		if (str[x] == c)
-		{
-		//	printf("sort ici, c = -%c-, x = %d\n", str[x], x);
-			return (x);
-		}
-		x++;
+		tmp = joi(tmp, cpy_from_two_posi(str, 0, x + 1));
+		copy = ft_strdup(str);
+	//	free(str);
+		str = cut_i(copy, x + 1);
+		free(copy);
 	}
-//	printf("else\n");
-	return (10);
+	else 
+		return (NULL);
+	return (str);
+}
+
+char	*ptit_bidule(char *tmp, char *str, int x)
+{
+	tmp = joi(tmp, cpy_from_two_posi(str, 0, x - 1));
+	tmp = joi(tmp, ft_itoaa(g_ret));
+	return (tmp);
+}
+
+char	*re_ptit_bidule(char *str, t_mimi *shell, int x)
+{
+	char	*copy;
+
+	copy = ft_strdup(str);
+	free(str);
+	str = cut_i(copy, x);
+	free(copy);
+	shell->s = 1;
+	return (str);
+}
+
+
+void	ptit_free(t_mimi *shell)
+{
+	free(shell->line);
+	shell->line = NULL;
 }
 
 char	*dollary(char *str, t_mimi *shell, int x)
 {
 	char	*tmp;
 	int		y;
-//	char	*str;
 	char *copy;
 
 	tmp = NULL;
-
-	//str = cpy_from_two_pos(strr, 0, ft_strlenn(strr));
-//	free(strr);
 	shell->size = ft_strlenn(str);
 	shell->s = ft_strlenn(shell->line);
 	while (str && ft_strlenn(str) > 0 && (str[x] && str[x] != '\0'))
 	{
-	//	printf("debut -- str = %s, tmp =%s\n", str, tmp);
 		if (str[x] == '$')
 		{
-			//	printf("x = %d dollar trouve ici\n", x);
 			x++;
 			y = 0;
 			if (ft_is_nb(str[x]) == 1)
@@ -48,93 +64,36 @@ char	*dollary(char *str, t_mimi *shell, int x)
 					tmp = joi(tmp, cpy_from_two_posi(str, 0, x - 1));
 				copy = ft_strdup(str);
 				free(str);
-				str = cut_i(copy, x + 1);//malloc ici et perdu ensuite
+				str = cut_i(copy, x + 1);
 				free(copy);
-				// str = cut_in(str, x + 1);
-			//	printf("Cetait des chiffres tmp =-%s-, str = -%s-\n",tmp, str);/////////////////////////
 			}
 			else if (ft_is_nb(str[x]) != 1)
 			{
 				while ((ft_is_nb(str[x + y]) == 1 || ft_is_alpha(str[x + y]) == 1 || str[x + y] == '_') && str[x + y] != '\0')
 					y++;
 				if (y == 0 && str[x + y] == '?')
-				{
-					tmp = joi(tmp, cpy_from_two_posi(str, 0, x - 1));
-//printf("$? = str = -%s- tmp = -%s- line = -%s- x = %d\n", str, tmp, shell->line, x);
-					tmp = joi(tmp, ft_itoaa(g_ret));
-					// str = join(NULL, cut_i(str, x + y + 1));
-				//	printf("tmp = %s, str %s\n", tmp, str);
-				}
+					ptit_bidule(tmp, str, x);
 				else if (str && str[x + y] != '\0' && str[x + y] != '$' && str_c(shell->instr, str[x + y]) == 10)
 					return (char_err("something went wrong with this variable", 2));
 				else if (y == 0)
-				{
 					tmp = joi(tmp, malicious("$"));
-					printf("y=  %d, x = %d\n", y, x);
-				}
-			//	printf("BEFORE\n");
-				//tmp = join(tmp, cpy_from_two_pos(str, 0, x - 1));
-				//printf("==========tmp = %s, str = %s\n", tmp, str);
 				tmp = joi(tmp, find_env(cpy_from_two_posi(str, x, x + y), shell));
-				printf("STR = -%s-\n", str);
 				if (str != NULL && str[x] != '\0' && str[x + 1] == '$')
-				{
-					printf("BEF = %s\n", str);
-					copy = ft_strdup(str);
-					free(str);
-					str = cut_i(copy, x);//malloc ici et perdu ensuite
-					free(copy);
-					// str = cut_in(str, x);
-				//	printf("NEXT = %s\n", str);
-					shell->s = 1;
-				}
-				printf("STR1 = -%s\n", str);
-
+					re_ptit_bidule(str, shell, x);
 				copy = ft_strdup(str);
-			//	if (str != NULL)
 				free(str);
-				str = cut_i(copy, x + y);//malloc ici et perdu ensuite
+				str = cut_i(copy, x + y);
 				free(copy);
-
-			//	str = cpy_from_two_posi(shell, str, x + y, ft_strlenn(str));
-			//	free(str);
-			//	str = strr;
 				if (str == NULL && shell->size == shell->s)
-				{
-					free(shell->line);
-					shell->line = NULL;
-				}
-			//	printf("STR2 = -%s\n", str);
+					ptit_free(shell);
 			}
 			x = 0;
-			//	printf("YYYY tmp == %s, str = %s, %d\n", tmp, str, x);
 		}
 		else
-		{
-///printf("JOIN\n");
-			tmp = joi(tmp, cpy_from_two_posi(str, 0, x + 1));
-			copy = ft_strdup(str);
-				free(str);
-				str = cut_i(copy, x + 1);//malloc ici et perdu ensuite
-				free(copy);
-			// str = cut_in(str, x + 1);
-		//	printf("Passe dans le foutu join, tmp = %s, str %s\n", tmp, str);
-		}
-	//	printf("else\n");
-	//	printf(" %d -%s- -%s-\n", x, str, tmp);
-		/*if (str)
-		{
-			// printf("dollar:before join:str=%p\n", str);
-			// // str = join(NULL, cpy_from_two_pos(str, x, ft_strlenn(str)));
-			// printf("dollar:after join:str=%p\n", str);
-			// printf("rentre dan if\n");
-		}*/
-		//printf("str =================== %s, %s\n", str, tmp);
+			dol_else(tmp, str, x);
 		x = 0;
 	}
-	//	printf("iDOLLAR     tmp = -%s- line = -%s- str = -%s-\n", tmp, shell->line, str);
 	shell->size = shell->size - ft_strlenn(str);
-	///printf("size == %d\n", shell->size);
 	free(str);
 	return (tmp);
 }

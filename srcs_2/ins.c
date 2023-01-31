@@ -11,31 +11,25 @@
 /* ************************************************************************** */
 #include  "minishell.h"
 
+char	*cut_ini(char *str, int x)
+{
+	if ((int)ft_strlen(str) <= x)
+		free(str);
+	return (NULL);
+}
+
 char	*cut_in(char *str, int x)
 {
 	int		y;
 	char	*tmp;
 
 	y = 0;
-	//printf("cut_in %s, %d\n", str, x);
-	if (str == NULL)
-	{
-	//	free(str);
-		return (NULL);
-	}
-	if ((int)ft_strlen(str) <= x)
-	{
-		printf("je free ici\n");
-		free(str);
-		return (NULL);
-	}
+	if (str == NULL || (int)ft_strlen(str) <= x)
+		return (cut_ini(str, x));
 	while (str[x + y] != '\0')
 		y++;
 	if (y == 0)
-	{
-		//free(str);
 		return (NULL);
-	}
 	tmp = (char *)malloc(sizeof(char) * (y + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
@@ -47,7 +41,6 @@ char	*cut_in(char *str, int x)
 	}
 	tmp[y] = '\0';
 	free(str);
-	printf("cut in tmp = %s\n", tmp);
 	return (tmp);
 }
 
@@ -57,7 +50,6 @@ char	*get_in(char *str, int x)
 	int		y;
 
 	y = 0;
-//	printf("str = %s, x = %d\n", str, x);
 	if (x == 0)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * (x + 1));

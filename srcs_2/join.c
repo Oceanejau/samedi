@@ -11,27 +11,14 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*join(char *s1, char *s2)
+char	*join_s(char *s1, char s2)
 {
-	char	*tmp;
-	int		x;
-	int		y;
-
-	x = -1;
-	//printf("TEST\n");
 	if (s1 == NULL && s2 == NULL)
-	{
-	//	printf("NULL NULL \n");
 		return (NULL);
-	}
 	else if (s1 == NULL)
 	{
-	//	printf("entre dans s1 null, %s\n", s2);
 		if (s1)
-		{
-	//		printf("JE FREE ICI \n");
 			free(s1);
-		}
 		return (s2);
 	}
 	else if (s2 == NULL)
@@ -39,8 +26,18 @@ char	*join(char *s1, char *s2)
 		free(s2);
 		return (s1);
 	}
-//	printf("s1 = -%s-, s2 = -%s-\n", s1, s2);
-	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlenn(s1) + (int)ft_strlenn(s2) + 1));
+	return (NULL);
+}
+
+char	*join(char *s1, char *s2)
+{
+	char	*tmp;
+	int		x;
+	int		y;
+
+	x = -1;
+	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlenn(s1)
+				+ (int)ft_strlenn(s2) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
 	while (s1[++x] != '\0')
@@ -53,6 +50,5 @@ char	*join(char *s1, char *s2)
 		free(s1);
 	if (s2)
 		free(s2);
-//	printf("fin join\n");
 	return (tmp);
 }

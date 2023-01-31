@@ -16,11 +16,8 @@ char	*cut_from_posi(char *str, int e)
 	char	*tmp;
 	int		x;
 
-//printf("str===== %s\n", str);
-	if (str == NULL)// || (str && e >= (int)ft_strlenn(str)))
-	{
+	if (str == NULL)
 		return (NULL);
-	}
 	x = 0;
 	tmp = (char *)malloc(sizeof(char) * (((int)ft_strlenn(str) - e) + 1));
 	if (!tmp)

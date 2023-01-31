@@ -84,39 +84,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t size)
 	dest[i] = '\0';
 	return (dest);
 }
-/*
-char	*do_big_quote(t_mimi *shell, int x)
-{
-	//on reparcours la chaine si c'est un double quote et on modifie les $ sinon rien
-	//on stock dans un int de la structure la taille de ce que l'on a copie pour reparcourir apres uniquement les nouveaux elelments
-	// ici on ret tmp on go dans big quote et on cherche d'autres quotes ' ou " ou des white spaces etc if on trouve des quotes on les gere
-	char	*tmpp;
-	char	*tmp;
-
-	shell->ferme = 1;
-	while (shell->line != NULL && str_c(shell->instr, shell->line[x]) >= 2
-		&& shell->line[x] != '\0')
-	{
-		if (x > 0)
-			tmp = get_in(shell->line, x);
-		shell->line = cut_in(shell->line, x + 1);
-		if (str_c(shell->instr, shell->line[x]) >= 2)
-		{
-			if (shell->ferme == 0)
-				shell->ferme--;
-			else
-				shell->ferme++;
-			tmpp = do_quote(shell, x, shell->line[x]);
-			tmp = johnny(tmp, tmpp);
-	//		printf("tenter un truc -------------------%s-\n", tmp);
-		}
-		x++;
-	}*/
-/*	tmp = johnny(tmp, get_in(shell->line, x));
-	shell->line = cut_in(shell->line, x);*/
-//	printf("Fin de big quote str = -%s-\n", tmp);
-	/*return (tmp);
-}*/
 
 int	check_for_quotes(t_mimi *shell, char c)
 {
@@ -217,66 +184,34 @@ void	ft_listadd_back(t_list **alst, t_list *new)
 	}
 }
 
-/*char	pad(char *s, int x)
-{
-	char	*copy;
-	int		i;
-
-	i = 0;
-	if (s != NULL)
-	{
-		copy = s;
-		while (*copy != '\0' && i < x)
-			copy++;
-	}
-	if (i == x)
-		return (*copy);
-	return (0);
-}*/
-
 int	mani(t_mimi *shell)
 {
 	char	*str;
 	int		x;
-//	char	*tmp;
 
 	str = NULL;
-//	tmp = shell->line;
 	shell->quote = 0;
 	shell->nb_hd = 0;
 	x = 0;
-	//printf("MANI= -%s-\n", shell->line);
-
-	while (shell->line != NULL && /*pad(shell->line, x)*/shell->line[x] != '\0')
+	while (shell->line != NULL && shell->line[x] != '\0')
 	{
-	//	printf("PAS NUL x = %d\n", x);
-		
-		if (str_c(shell->instr, /*pad(shell->line, x)*/shell->line[x]) != 10
+		if (str_c(shell->instr, shell->line[x]) != 10
 			|| shell->line[x + 1] == '\0')
 		{
 			str = repartiteur(shell, x, str);
 			x = -1;
-		//	printf("strrrrr = -%s-, -%s-, -%s-\n", str, shell->line, tmp);
 			if (str == NULL && shell->ret == -1)
 			{
-				//printf("PASSE\n");
 				free_list(shell);
 				free(shell->line);
 				free(str);
 			}
-			else if (str != NULL && ft_strlen(str) != 0)// && str[0] != '\0')//// else ++
+			else if (str != NULL && ft_strlen(str) != 0)
 			{
-			//	printf("str = %s, %d\n", str, shell->type);
 				ft_listadd_back(&shell->list, ft_listnew(str, shell->type));
-				// if (str[0] == 'e' && str[1] == 'x' && str[2] == 'i'
-				// 	&& str[3] == 't' && str[4] == '\0')
-				// 	exit(1);//return la derniere valeur de return!!!!!!!!!!!!!!1
 				free(str);
 			}
 		}
-	//	tmp = shell->line;
-	//	printf("ree\n");
-		//free(shell->line);
 		x++;
 	}
 	return (0);

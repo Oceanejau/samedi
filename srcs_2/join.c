@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*join_s(char *s1, char s2)
+char	*join_s(char *s1, char *s2)
 {
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ojauregu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/31 07:32:41 by ojauregu          #+#    #+#             */
+/*   Updated: 2023/01/31 07:32:44 by ojauregu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -52,8 +63,10 @@ typedef struct s_mimi
 	int			size;
 	void		*ptr;
 	int			ret_line;
+	int			retnex;
 	t_list		*list;
 	t_list		*envlist;
+	char		c;
 	char		*str;
 	char		*args;
 	char		*line;
@@ -67,7 +80,7 @@ typedef struct s_mimi
 	t_heredoc	hd;
 }				t_mimi;
 
-extern int		g_ret;//globale
+extern int		g_ret;
 
 char	*ft_itoaa(int n);
 char	*cut_from_posi(char *str, int e);
@@ -83,18 +96,16 @@ char	*joi(char *s1, char *s2);
 char	*malicious(const char *str);
 size_t	ft_strlenn(const char *s);
 int		where_charly(char *str, int x, char c);
-///////SRCS2/////
 char	*cpy_from_two_pos(char *str, int s, int e);
 char	*char_err(char *msg, int ret);
 char	*cut_from_pos(char *str, int e);
 char	*do_end(t_mimi *shell);
 char	*do_pipe(t_mimi *shell, int x);
-char	*nexty(t_mimi *shell, char *msg, int ret);
+char	*nexty(t_mimi *shell, char *msg, char *tmp);
 char	*ney(t_mimi *shell, char *msg, int ret, char c);
-char	*nexy(t_mimi *shell, char *msg, int ret, char c);
-char	*neyy(t_mimi *shell, char *msg, int ret, char c);
+char	*nexy(t_mimi *shell, char *msg, char c, char *tmp);
+char	*neyy(t_mimi *shell, char *msg, char c);
 char	*do_red_next(t_mimi *shell, char *tmp, int x, char c);
-char	*redir_vide(t_mimi *shell, char *tmp);
 char	*do_red(t_mimi *shell, int x, char c);
 char	*do_white(t_mimi *shell, int x);
 t_list	*ft_lstnew(char *content);
@@ -114,12 +125,13 @@ void	ft_listadd_back(t_list **alst, t_list *new);
 t_list	*ft_listnew(char *content, int x);
 void	*ft_memcpy(void *dst, const void *src, size_t size);
 size_t	ft_memlen(void *s);
-void	set_struct(t_mimi	*shell, char **envp);
+void	set_struct(t_mimi *shell, char **envp);
 int		main(int ac, char **av, char **envp);
 int		ret_nb(int ret, char *msg, t_mimi *shell);
-//static void	reset_stuff(t_mimi *shell);
-//static void	set_stuff(t_mimi *shell, char **envp);
-void	set_struct(t_mimi	*shell, char **envp);
+char	*join_s(char *s1, char *s2);
+char	*do_end_nxt(t_mimi *shell, char *tmp, char *str);
+char	*do_end_lst(t_mimi *shell, char *tmp, char *str);
+void	set_struct(t_mimi *shell, char **envp);
 char	**next_hd(t_mimi *shell, int x);
 int		next_kote(char *str, char c, int x);
 int		check_for_quotes(t_mimi *shell, char c);
@@ -130,6 +142,6 @@ char	*copy_char_et(char *str);
 char	**error_copy_char_et_et(char **tmp, int size);
 char	**copy_char_et_et(char **str);
 void	free_list(t_mimi *shell);
-void	show_list(t_mimi *shell);///////a virer
+void	show_list(t_mimi *shell);
 
 #endif

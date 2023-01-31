@@ -16,7 +16,11 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs_2/ins.c\
 				srcs_2/int_err.c\
 				srcs_2/join.c\
+				srcs_2/nex_.c\
+				srcs_2/ft_mem.c\
+				srcs_2/insides.c\
 				srcs_2/kote.c\
+				srcs_2/set_struct.c\
 				srcs_2/list.c\
 				srcs_2/main.c\
 				srcs_2/next_hd.c\

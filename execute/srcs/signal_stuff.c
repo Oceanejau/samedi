@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 12:02:38 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/29 14:51:20 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 22:50:53 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	sig_int_in_parent(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	ft_putstr_fd("  \b\b", STDERR_FILENO);
+	g_ret = 130;
 }
 
 static void	sig_int_hd(int sig)
@@ -29,7 +30,7 @@ static void	sig_int_hd(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
-	g_ret = 1;
+	g_ret = 130;
 }
 
 void	catch_signal(int mode)

@@ -1,111 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/30 17:01:31 by wmari             #+#    #+#             */
+/*   Updated: 2023/01/30 22:53:05 by wmari            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/execute.h"
 
-void	end_heredoc(char **contents, t_mimi *shell, char **s, int *i)
+static int	heredoc(t_mimi *shell, int index)
 {
-	write(shell->hd.tab_fd[*i], *contents, ft_strlen(*contents));
-/*	if (!s && g_exit_ret != 424242)
-		print_error_heredoc(exec, *i);*/
-	if (*s)
-		free(*s);
+	int		holder_fd;
+	char	*filename;
+
+	holder_fd = dup(STDIN_FILENO);
+	filename = get_name(index);
+	shell->hd.tab_fd[index] = create_file(filename, shell);
+	free(filename);
+	if (shell->hd.tab_fd[index] == -1)
+		return (1);
+	write_in_hd(shell, index, get_delim(shell));
+	dup2(holder_fd, STDIN_FILENO);
+	close(holder_fd);
+	return (0);
 }
 
-char	*add_line(char *contents, char *s)
+int	modif_list(t_mimi *shell, int index)
 {
-	char *swp;
+	t_list	*temp;
+	char	*copy;
 
-	swp = contents;
-	contents = ft_strjoin(swp, s);
-	free(swp);
-	if (!contents)
-		return (NULL);
-	swp = contents;
-	contents = ft_strjoin(swp, "\n");
-	free(swp);
-	return (contents);
-}
-
-
-int	print_on_file(char **contents, int *i, t_mimi *shell)
-{
-	char	*s;
-
-	s = readline("> ");
-	if (!s || !strcmp(s, shell->hd.tab_exit_code[*i]))
-		return (end_heredoc(contents, shell, &s, i), 2);
-	else
+	temp = shell->list;
+	while (temp)
 	{
-		s = ft_heredoc_expand(s, shell->env);
-		if (!s)
-		{
-			free_string(*contents);
-			return (print_error("!malloc 1 heredoc()"));
-		}
-		*contents = add_line(*contents, s);
-		if (!*contents)
-		{
-			free(s);
-			return (print_error("!malloc 2 heredoc()"));
-		}
-	}
-	if (s)
-		free(s);
-	return (OK);
-}
-
-int	load_heredoc(int i, t_mimi *shell)
-{
-	int		start;
-	char	*contents;
-
-	contents = malloc(sizeof(char) * 1);
-	if (!contents)
-	{
-		ft_putstr_fd("malloc fail, load_heredoc()", STDERR_FILENO);
-		return (ERROR);
-	}
-	contents[0] = 0;
-	start = 0;
-	while (!start || strcmp(contents, shell->hd.tab_exit_code[i]))
-	{
-		start = print_on_file(&contents, &i, shell);
-		if (start == 1)
-			return (ERROR);
-		else if (start == 2)
+		if (!ft_strncmp("<<", temp->str, ft_strlen("<<"))
+			&& temp->type == REDIR)
 			break ;
+		temp = temp->next;
 	}
-	free(contents);
-	return (OK);
-}
-
-
-int	heredoc(t_mimi *shell, int i)
-{
-	int	hold_fd;
-
-	hold_fd = dup(STDIN_FILENO); // sauvegarde du stdin actuel
-	//signal_catching_mode(HEREDOC);
-	shell->hd.tab_fd[i] = create_file(gen_name(shell, i), shell);
-	if (!shell->hd.tab_fd[i])
-		return (ERROR);
-	if (load_heredoc(i, shell) == 1)
-		return (ERROR);
-	//signal_catching_mode(INTERACTIVE);
-	/*if (g_exit_ret == 424242) // Si il ya eu un Cntrl C
-		free_heredoc(exec);*/
-	dup2(hold_fd, STDIN_FILENO); 
-	close(hold_fd);
-	return (OK);
+	if (!temp)
+		return (0);
+	copy = ft_itoa(index);
+	free(temp->str);
+	temp->str = ft_strdup("<");
+	free(temp->next->str);
+	temp->next->str = ft_strjoin("hold/temp", copy);
+	free(copy);
+	return (0);
 }
 
 int	heredoc_init(t_mimi *shell)
 {
+	int	status;
+
+	status = 0;
+	catch_signal(HD);
 	if (!shell->nb_hd)
-		return (OK);
-	shell->hd.tab_fd = (int *)malloc(sizeof(int) * shell->nb_hd); // tableau de fd...
+		return (0);
+	shell->hd.tab_fd = (int *)malloc(sizeof(int) * shell->nb_hd);
 	if (!shell->hd.tab_fd)
-		return (ERROR);
-	shell->hd.cpt = 0;
-	while (shell->hd.cpt < shell->nb_hd) // && (!signal cntrl C)
-		heredoc(shell, shell->hd.cpt++);
-	return (OK);
+		return (1);
+	shell->hd.index = 0;
+	shell->hd.nb_to_close = 0;
+	while (shell->hd.index < shell->nb_hd)
+	{
+		status = heredoc(shell, shell->hd.index);
+		if (status)
+			return (0);
+		modif_list(shell, shell->hd.index);
+		shell->hd.index++;
+	}
+	return (0);
 }

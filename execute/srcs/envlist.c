@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:00:00 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/16 14:47:15 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 13:32:01 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@ int	check_same_till_equals(const char *s1, const char *s2)
 	while (s1[i] == s2[i] && s1[i] && s2[i] && s1[i] != '=' && s2[i] != '=')
 		i++;
 	if (s1[i] == s2[i] && s1[i] == '=')
+		return (0);
+	return (1);
+}
+
+int	check_if_add(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[1] && s2[i] && s1[i] != '+' && s2[i] != '=')
+		i++;
+	if (s1[i] == '+' && s2[i] == '=')
 		return (0);
 	return (1);
 }

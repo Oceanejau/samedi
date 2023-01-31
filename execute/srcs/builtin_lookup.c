@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 19:10:07 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:35:00 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/29 21:51:41 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exec_prebuiltin(char ***block, int index, int *fd_btw_pipe, t_mimi *shell)
 		if (pid == 0)
 		{
 			if (!exec_pid0(block, index, fd_btw_pipe, pipefd))
-				g_ret = exec_builtin(block, index, shell, fd_btw_pipe);
+				exec_builtin(block, index, shell, fd_btw_pipe);
 			close(pipefd[1]);
 			free_all_built(block, shell, fd_btw_pipe);
 			exit(g_ret);

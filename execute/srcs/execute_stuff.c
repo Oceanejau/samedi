@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:07:29 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 17:01:22 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/29 21:52:10 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static int	execute_child(
 
 int	execute_stuff(char ***block, int index, int *fd_btw_pipe, t_mimi *shell)
 {
-	int		ret;
 	char	*cmd;
 
 	cmd = find_cmd(block, index, shell);
@@ -96,17 +95,12 @@ int	execute_stuff(char ***block, int index, int *fd_btw_pipe, t_mimi *shell)
 	if (builtin_finder(cmd) != -1)
 	{
 		free(cmd);
-		if (is_last_cmd(block, index))
-			shell->ret = exec_prebuiltin(block, index, fd_btw_pipe, shell);
-		else
-			exec_prebuiltin(block, index, fd_btw_pipe, shell);
+		exec_prebuiltin(block, index, fd_btw_pipe, shell);
 	}
 	else
 	{
 		free(cmd);
-		ret = execute_child(block, index, fd_btw_pipe, shell);
-		if (ret == -1)
-			return (1);
+		execute_child(block, index, fd_btw_pipe, shell);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 19:48:27 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:27:09 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 13:56:55 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,42 @@ static int	check_valid_arg(char *str)
 	return (0);
 }
 
+static void	do_stuff_valid(char *str, t_mimi *shell)
+{
+	t_list	*temp;
+
+	if (check_valid_arg(str))
+	{
+		temp = shell->envlist;
+		while (temp)
+		{
+			if (!check_same_till_equals(str, temp->str))
+			{
+				free(temp->str);
+				temp->str = ft_strdup(str);
+				break ;
+			}
+			if (!check_if_add(str, temp->str))
+			{
+				add_stuff_export(str, temp);
+				break ;
+			}
+			temp = temp->next;
+		}
+		if (!temp)
+			ft_lstadd_back(&(shell->envlist), ft_lstnew(str));
+	}
+}
+
 int	ft_export(char ***block, int index, t_mimi *shell)
 {
 	int		i;
-	t_list	*temp;
 
 	i = 0;
 	while (block[index][++i])
 	{
-		if (check_valid_arg(block[index][i]))
-		{
-			temp = shell->envlist;
-			while (temp)
-			{
-				if (!check_same_till_equals(block[index][i], temp->str))
-				{
-					free(temp->str);
-					temp->str = ft_strdup(block[index][i]);
-					break ;
-				}
-				temp = temp->next;
-			}
-			if (!temp)
-				ft_lstadd_back(&(shell->envlist), ft_lstnew(block[index][i]));
-		}
+		do_stuff_valid(block[index][i], shell);
+		i++;
 	}
 	free_block(block, shell);
 	return (0);
@@ -93,27 +105,11 @@ int	ft_export(char ***block, int index, t_mimi *shell)
 int	ft_soloexport(char ***block, int index, t_mimi *shell)
 {
 	int		i;
-	t_list	*temp;
 
 	i = 1;
 	while (block[index][i])
 	{
-		if (check_valid_arg(block[index][i]))
-		{
-			temp = shell->envlist;
-			while (temp)
-			{
-				if (!check_same_till_equals(block[index][i], temp->str))
-				{
-					free(temp->str);
-					temp->str = ft_strdup(block[index][i]);
-					break ;
-				}
-				temp = temp->next;
-			}
-			if (!temp)
-				ft_lstadd_back(&(shell->envlist), ft_lstnew(block[index][i]));
-		}
+		do_stuff_valid(block[index][i], shell);
 		i++;
 	}
 	return (0);

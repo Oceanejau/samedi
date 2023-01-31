@@ -1,41 +1,107 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/30 17:04:50 by wmari             #+#    #+#             */
+/*   Updated: 2023/01/30 22:56:33 by wmari            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/execute.h"
 
-int	print_error(char *s)
+char	*get_name(int index)
 {
-	ft_putstr_fd("ERROR: ", STDERR_FILENO);
-	ft_putstr_fd(s, STDERR_FILENO);
-	write(STDERR_FILENO, "\n", 1);
-	//g_exit_ret = 127;
-	return (ERROR);
+	char	*nb;
+	char	*ret;
+
+	nb = ft_itoa(index);
+	if (!nb)
+	{
+		ft_putstr_fd("gen_name: malloc fail\n", STDERR_FILENO);
+		return (NULL);
+	}
+	ret = ft_strjoin("hold/temp", nb);
+	free(nb);
+	return (ret);
 }
 
-int	create_file(char *filename, t_mimi *shell)
+int	create_file(char *name, t_mimi *shell)
 {
 	int	fd;
 
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC,
+	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH, 0777);
 	if (fd == -1)
-        ft_putstr_fd("file creation failed", STDERR_FILENO);
+		ft_putstr_fd("file creation fail", STDERR_FILENO);
 	else
-        shell->hd.cpt_close++;
+		shell->hd.nb_to_close++;
 	return (fd);
 }
 
-char	*gen_name(t_mimi *shell, int i, char **exit_code)
+char	*get_delim(t_mimi *shell)
 {
-	char	*nb;
+	t_list	*temp;
+	char	*delim;
 
-	nb = ft_itoa(i);
-	if (!nb)
+	delim = NULL;
+	temp = shell->list;
+	while (temp)
 	{
-        ft_putstr_fd("malloc fail, gen_name()", STDERR_FILENO);
-		return (NULL);
+		if (!ft_strncmp("<<", temp->str, ft_strlen("<<"))
+			&& temp->type == REDIR)
+			break ;
+		temp = temp->next;
 	}
-    exit_code = next_hd(i, shell);
-	next_hd(i, shell) = ft_strjoin("hold/temp", nb);
-	/*if (!exec->hd.tab_of_name_file[i])
-		print_error("malloc failed 1");*/
-	free(nb);
-	//return (exec->hd.tab_of_name_file[i]);
+	if (temp && temp->next)
+		delim = ft_strdup(temp->next->str);
+	return (delim);
+}
+
+int	write_in_hd(t_mimi *shell, int index, char *delim)
+{
+	char	*str;
+
+	if (delim == NULL)
+		return (1);
+	while (1)
+	{
+		str = readline(">");
+		if (g_ret == 130)
+			break ;
+		if (!str)
+		{
+			ft_putstr_fd("warning :here-document delimited by EOF\n",
+				STDERR_FILENO);
+			return (free(delim), free(str), 1);
+		}
+		if (!ft_strncmp(delim, str, ft_strlen(delim)))
+			return (free(delim), free(str), 0);
+		/*mettre ici fonction pour expand*/
+		write(shell->hd.tab_fd[index], str, ft_strlen(str));
+		write(shell->hd.tab_fd[index], "\n", 1);
+		free(str);
+	}
+	if (g_ret == 130)
+		free(delim);
+	return (1);
+}
+
+void	free_hd(t_mimi *shell)
+{
+	int	i;
+
+	i = 0;
+	if (shell->hd.tab_fd)
+	{
+		while (i < shell->hd.nb_to_close)
+		{
+			if (shell->hd.tab_fd[i])
+				close(shell->hd.tab_fd[i]);
+			i++;
+		}
+		free(shell->hd.tab_fd);
+	}
 }

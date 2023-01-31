@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:01:14 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:11:52 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 19:21:07 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ int	deal_with_redir(char ***block, int index, int n, t_mimi *shell)
 {
 	int	fd[2];
 
-
-fd[0] = 0;///
-fd[1] = 0;////
 	if (is_redir(block, index, n, shell) == INFILE)
 		return (infile_modif(block[index][n + 1], fd[0]));
 	if (is_redir(block, index, n, shell) == D_INFILE)

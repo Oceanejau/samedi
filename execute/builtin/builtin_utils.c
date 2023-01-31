@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 21:43:28 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/29 14:51:14 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 15:07:36 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ void	free_all_built(char ***block, t_mimi *shell, int *fd)
 	free_env(shell);
 	free_fd(shell->save_fd);
 	close(*fd);
+}
+
+void	add_stuff_export(char *str, t_list *temp)
+{
+	char	*copy;
+	char	*copy2;
+	char	*copy3;
+
+	copy = ft_strdup(temp->str);
+	free(temp->str);
+	copy3 = ft_strjoin(":", ft_strchr(str, '=') + 1);
+	copy2 = ft_strjoin(copy, copy3);
+	temp->str = ft_strdup(copy2);
+	free(copy3);
+	free(copy2);
+	free(copy);
 }

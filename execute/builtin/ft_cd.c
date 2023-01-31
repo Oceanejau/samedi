@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:08:13 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:26:13 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/30 15:07:30 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,32 @@ static void	free_block(char ***block)
 	free(block);
 }
 
-static int	do_home(t_mimi *shell)
+static void	add_oldpwd(t_mimi *shell, char *str)
+{
+	t_list	*temp;
+	char	*save;
+
+	temp = shell->envlist;
+	while (temp)
+	{
+		if (!check_same_till_equals("OLDPWD=", temp->str))
+		{
+			free(temp->str);
+			temp->str = ft_strjoin("OLDPWD=", str);
+			break ;
+		}
+		temp = temp->next;
+	}
+	if (!temp)
+	{
+		save = ft_strjoin("OLDPWD=", str);
+		ft_lstadd_back(&(shell->envlist),
+			ft_lstnew(save));
+		free(save);
+	}
+}
+
+static int	do_home(t_mimi *shell, char *save)
 {
 	t_list	*temp;
 	char	*str;
@@ -48,7 +73,10 @@ static int	do_home(t_mimi *shell)
 		temp = temp->next;
 	}
 	if (str)
-		chdir(str);
+	{
+		if (!chdir(str))
+			add_oldpwd(shell, save);
+	}
 	else
 		printf("cd: HOME not set\n");
 	return (0);
@@ -56,45 +84,52 @@ static int	do_home(t_mimi *shell)
 
 int	ft_cd( char ***block, int index, t_mimi *shell)
 {
-	int	n;
+	int		n;
+	char	*save;
 
 	n = 0;
 	while (block[index][n])
 		n++;
 	if (n > 2)
-	{
-		printf("cd: too many arguments\n");
-		return (1);
-	}
+		return (printf("cd: too many arguments\n"), 1);
+	save = ft_calloc(sizeof(char), 1024);
+	getcwd(save, 1023);
 	if (block[index][1])
-		chdir(block[index][1]);
+	{
+		if (!chdir(block[index][1]))
+			add_oldpwd(shell, save);
+	}
 	else
-		do_home(shell);
+		do_home(shell, save);
 	if (errno)
-		perror("cd");
+		return (free(save), printf("cd: %s: %s\n", block[index][1],
+			strerror(errno)), 1);
 	free_block(block);
 	free_list(shell);
-	return (0);
+	return (free(save), 0);
 }
 
 int	ft_solocd(char ***block, int index, t_mimi *shell)
 {
-	int	n;
+	int		n;
+	char	*save;
 
 	n = 0;
 	while (block[index][n])
 		n++;
 	if (n > 2)
-	{
-		printf("cd: too many arguments\n");
-		return (1);
-	}
+		return (printf("cd: too many arguments\n"), 1);
+	save = ft_calloc(sizeof(char), 1024);
+	getcwd(save, 1023);
 	if (block[index][1])
-		chdir(block[index][1]);
+	{
+		if (!chdir(block[index][1]))
+			add_oldpwd(shell, save);
+	}
 	else
-		do_home(shell);
+		do_home(shell, save);
 	if (errno)
-		return (printf("cd: %s: %s\n", block[index][1],
+		return (free(save), printf("cd: %s: %s\n", block[index][1],
 			strerror(errno)), 1);
-	return (0);
+	return (free(save), 0);
 }

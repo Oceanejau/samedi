@@ -49,6 +49,7 @@ typedef struct s_mimi
 	int			y;
 	int			x;
 	int			z;
+	int			fre;
 	int			s;
 	int			run;
 	int			end;
@@ -59,7 +60,9 @@ typedef struct s_mimi
 	int			nb_hd;
 	int			index;
 	int			ferme;
+	char		*t;
 	int			quote;
+	int			same;
 	int			size;
 	void		*ptr;
 	int			ret_line;
@@ -85,7 +88,7 @@ extern int		g_ret;
 
 char	*ft_itoaa(int n);
 char	*cut_from_posi(char *str, int e);
-char	*cpy_from_two_posi(char *str, int s, int e);
+char	*cpy_from_two_posi(t_mimi *shell, int s, int e);
 int		str_c(char *str, char c);
 char	*dollary(char *str, t_mimi *shell, int x);
 char	*find_env(char *str, t_mimi *shell);
@@ -143,11 +146,11 @@ char	*copy_char_et(char *str);
 char	**error_copy_char_et_et(char **tmp, int size);
 char	**copy_char_et_et(char **str);
 void	free_list(t_mimi *shell);
-char	*ptit_bout_d_free(t_mimi *shell, char *str, int x, int y);
-char	*dol_fin(t_mimi *shell, char *str);
+char	*ptit_bout_d_free(t_mimi *shell, int x, int y);
+char	*dol_fin(t_mimi *shell);
 void	ptit_free(t_mimi *shell);
-char	*re_ptit_bidule(char *str, t_mimi *shell, int x);
-char	*ptit_bidule(t_mimi *shell, char *str, int x);
+char	*re_ptit_bidule(t_mimi *shell, int x);
+char	*ptit_bidule(t_mimi *shell, int x);
 
 
 

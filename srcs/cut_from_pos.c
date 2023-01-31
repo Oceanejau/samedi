@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*cut_from_posi(char *str, int e)
+char	*cut_from_posi(char *str, int e)// a virer
 {
 	char	*tmp;
 	int		x;

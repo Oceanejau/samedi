@@ -11,47 +11,73 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*ptit_bidule(t_mimi *shell, char *str, int x)
+char	*ptit_bidule(t_mimi *shell, int x)
 {
-	shell->tmp = joi(shell->tmp, cpy_from_two_posi(str, 0, x - 1));
+	shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x - 1));
 	shell->tmp = joi(shell->tmp, ft_itoaa(g_ret));
 	return (shell->tmp);
 }
 
-char	*re_ptit_bidule(char *str, t_mimi *shell, int x)
+char	*re_ptit_bidule(t_mimi *shell, int x)
 {
 	char	*copy;
 
-	copy = ft_strdup(str);
-	free(str);
-	str = cut_i(copy, x);
+	copy = ft_strdup(shell->t);
+	free(shell->t);
+	shell->t = cut_i(copy, x);
 	free(copy);
 	shell->s = 1;
-	return (str);
+	if (shell->t == NULL)
+	{
+		shell->fre = 1;
+		if (shell->same == 1)
+			shell->line = NULL;
+	}
+	return (shell->t);
 }
 
 void	ptit_free(t_mimi *shell)
 {
-	free(shell->line);
+	if (shell->line && shell->same == 1)
+		free(shell->line);
 	shell->line = NULL;
 }
 
-char	*dol_fin(t_mimi *shell, char *str)
+char	*dol_fin(t_mimi *shell)
 {
-	shell->size = shell->size - ft_strlenn(str);
-	free(str);
+	if (shell->same != 1)
+		shell->size = shell->size - ft_strlenn(shell->t);
+	if (shell->fre != 1)
+	{
+		free(shell->t);
+		shell->fre = 1;
+		if (shell->same == 1)
+			shell->line = NULL;
+	}
 	return (shell->tmp);
 }
 
-char	*ptit_bout_d_free(t_mimi *shell, char *str, int x, int y)
+char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 {
 	char	*copy;
 
-	copy = ft_strdup(str);
-	free(str);
-	str = cut_i(copy, x + y);
-	free(copy);
-	if (str == NULL && shell->size == shell->s)
+	if (shell->fre != 1)
+	{
+	//	printf("entre\n");
+		copy = ft_strdup(shell->t);
+		free(shell->t);
+		shell->t = cut_i(copy, x + y);
+		free(copy);
+		if (shell->t == NULL)
+		{
+			shell->fre = 1;
+			shell->t = NULL;
+			if (shell->same == 1)
+				shell->line = NULL;
+		}
+	}
+	if (shell->fre != 1 && shell->t == NULL && shell->size == shell->s)
 		ptit_free(shell);
-	return (str);
+//	printf("STR apres le free? -%s-\n", shell->t);
+	return (shell->t);
 }

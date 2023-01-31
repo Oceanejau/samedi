@@ -77,6 +77,8 @@ int	mani(t_mimi *shell)
 				ft_listadd_back(&shell->list, ft_listnew(str, shell->type));
 				free(str);
 			}
+			shell->fre = 0;
+			shell->same = 0;
 		}
 		x++;
 	}

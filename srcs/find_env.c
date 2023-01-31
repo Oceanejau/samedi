@@ -25,7 +25,7 @@ char	*find_env(char *str, t_mimi *shell)
 			z++;
 		if (shell->env[y][z] == '=' && str[z] == '\0')
 		{
-			tmp = cpy_from_two_posi(shell->env[y], where_charly(shell->env[y],
+			tmp = cpy_from_two_pos(shell->env[y], where_charly(shell->env[y],
 						0, '=') + 1, ft_strlenn(shell->env[y]));
 			shell->s = ft_strlenn(str) + 1;
 			free(str);

@@ -30,7 +30,10 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 	if (next_kote(tmpp, '$', 0) >= 0)
 		tmpp = join(NULL, dollary(tmpp, shell, next_kote(tmpp, '$', 0)));
 	tmp = join(tmp, tmpp);
+	//printf("TMP = %s\n", tmp);
 	tmp = join(str, tmp);
+//	printf("TMP = %s\n", tmp);
+
 	return (tmp);
 }
 

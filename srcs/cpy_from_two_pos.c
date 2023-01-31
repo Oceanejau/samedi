@@ -11,19 +11,19 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*cpy_from_two_posi(char *str, int s, int e)
+char	*cpy_from_two_posi(t_mimi *shell, int s, int e)
 {
 	char	*tmp;
 	int		x;
 
 	x = 0;
-	if (str == NULL || s == e)
+	if (shell->t == NULL || s == e)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
 	while (s < e)
-		tmp[x++] = str[s++];
+		tmp[x++] = shell->t[s++];
 	tmp[x] = '\0';
 	return (tmp);
 }

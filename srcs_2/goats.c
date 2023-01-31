@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
+
+char*q;
+
 char	*goty(t_mimi *shell, char *msg, int ret, char c)
 {
 	free(shell->line);
@@ -25,7 +28,13 @@ char	*goty(t_mimi *shell, char *msg, int ret, char c)
 
 char	*next_goats(t_mimi *shell, char *tmp, int x)
 {
-	tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
+	int	is;
+
+	is = next_kote(shell->line, '$', 0);
+	if (is < x && is != -1)
+		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
+	else
+		tmp = join(tmp, cpy_from_two_pos(shell->line, 0, x));
 	shell->line = join(NULL, cut_in(shell->line, x));
 	return (tmp);
 }

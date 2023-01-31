@@ -61,6 +61,7 @@ typedef struct s_mimi
 	int			index;
 	int			ferme;
 	char		*t;
+	char		*q;
 	int			quote;
 	int			same;
 	int			size;

@@ -143,6 +143,14 @@ char	*copy_char_et(char *str);
 char	**error_copy_char_et_et(char **tmp, int size);
 char	**copy_char_et_et(char **str);
 void	free_list(t_mimi *shell);
+char	*ptit_bout_d_free(t_mimi *shell, char *str, int x, int y);
+char	*dol_fin(t_mimi *shell, char *str);
+void	ptit_free(t_mimi *shell);
+char	*re_ptit_bidule(char *str, t_mimi *shell, int x);
+char	*ptit_bidule(t_mimi *shell, char *str, int x);
+
+
+
 void	show_list(t_mimi *shell);
 
 #endif

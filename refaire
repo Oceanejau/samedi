@@ -4,3 +4,4 @@ hgfd | < f | << r | << v << f fff | hgf "hgfd" |"" | ''  | "d'f'" | g"'r'" | "'f
 
 $ fait un invalid free
 echo bonjour > $test    invaild free && fqit de lq merde
+123"abc"456 boucle ????

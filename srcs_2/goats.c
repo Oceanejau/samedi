@@ -67,6 +67,7 @@ char	*goats(t_mimi *shell, int x)
 			x = -1;
 		}
 		x++;
+		printf("X = %d\n", x);
 	}
 	if (c_pos == -1 && shell->line)
 		tmp = next_goats(shell, tmp, x);

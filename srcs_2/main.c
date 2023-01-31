@@ -63,6 +63,7 @@ int	main(int ac, char **av, char **envp)
 				free_fd((&shell)->save_fd), free_tab(shell.env), 0);
 		add_history(shell.line);
 		mani(&shell);
+		show_list(&shell);
 		g_ret = 0;
 		heredoc_init(&shell);
 		if (g_ret != 130)

@@ -29,7 +29,9 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs_2/repartiteur.c\
 				srcs_2/str_comp.c\
 				srcs_2/tab_et_et.c\
+				srcs_2/show_list.c\
 				srcs/cpy_from_two_pos.c\
+				srcs/ptit.c\
 				srcs/cut_from_pos.c\
 				srcs/dollar.c\
 				srcs/find_env.c\
@@ -38,7 +40,7 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs/ft_strlen.c\
 				srcs/ins.c\
 				srcs/str_c.c\
-				srcs/join.c\
+				srcs/joi.c\
 				srcs/char_err.c\
 				srcs/malicious.c\
 				srcs/where_is_charly.c\

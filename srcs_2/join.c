@@ -36,14 +36,16 @@ char	*join(char *s1, char *s2)
 	int		y;
 
 	x = -1;
+	if (s1 == NULL || s2 == NULL)
+		return (join_s(s1, s2));
 	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlenn(s1)
 				+ (int)ft_strlenn(s2) + 1));
 	if (!tmp)
 		return (char_err("failed to allocate memory", 2));
-	while (s1[++x] != '\0')
+	while (s1 && s1[++x] != '\0')
 		tmp[x] = s1[x];
 	y = 0;
-	while (s2[y] != '\0')
+	while (s2 && s2[y] != '\0')
 		tmp[x++] = s2[y++];
 	tmp[x] = '\0';
 	if (s1)

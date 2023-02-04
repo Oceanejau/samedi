@@ -16,11 +16,7 @@ char	*join_s(char *s1, char *s2)
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 	else if (s1 == NULL)
-	{
-		if (s1)
-			free(s1);
 		return (s2);
-	}
 	else if (s2 == NULL)
 	{
 		free(s2);

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 17:36:12 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:27:24 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 12:19:44 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,23 @@ static void	free_block(char ***block)
 	int	j;
 
 	i = 0;
-	while (block[i])
-	{
-		j = 0;
-		while (block[i][j])
+	if (block)
+	{	
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
 	}
-	free(block[i]);
-	free(block);
 }
 
 int	ft_solounset(char ***block, int index, t_mimi *shell)

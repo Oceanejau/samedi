@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-
-char*q;
-
 char	*goty(t_mimi *shell, char *msg, int ret, char c)
 {
 	free(shell->line);
@@ -71,12 +68,11 @@ char	*goats(t_mimi *shell, int x)
 		if (c_pos < 0 && (shell->line[x] == 34 || shell->line[x] == 39))
 		{
 			c_pos = x;
-			top_goats(shell, tmp, c_pos);
+			tmp = top_goats(shell, tmp, c_pos);
 			c_pos = -1;
 			x = -1;
 		}
 		x++;
-	//	printf("X = %d\n", x);
 	}
 	if (c_pos == -1 && shell->line)
 		tmp = next_goats(shell, tmp, x);

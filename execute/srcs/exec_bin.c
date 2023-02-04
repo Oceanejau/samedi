@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 15:12:44 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/26 22:30:35 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 17:29:36 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ void	free_all_bin(
 	if (cmd)
 		free(cmd);
 	free_list(shell);
-	free_block(block);
-	free_env(shell);
-	free_envchar(shell);
+	if (block)
+		free_block(block);
+	if (shell->envlist)
+		free_env(shell);
+	if (shell->env)
+		free_envchar(shell);
 	free_fd(shell->save_fd);
 }
 
@@ -81,12 +84,15 @@ int	exec_bin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe)
 {
 	char	**args;
 	char	*cmd;
+	char	*temp;
 
-	args = create_args(block, index, shell);
+	args = create_args(block, index, shell, 0);
 	if (args == NULL)
-		return (-1);
+		return (free_all_bin(NULL, shell, block, NULL), 1);
 	redir_stuff(block, index, shell, args);
-	cmd = find_path(find_cmd(block, index, shell), shell);
+	temp = find_cmd(block, index, shell);
+	cmd = find_path(temp, shell);
+	free(temp);
 	if (!ft_strncmp(cmd, ".", 1) || !ft_strncmp(cmd, "/", 1))
 		execve(cmd, args, shell->env);
 	ft_putstr_fd(cmd, 2);

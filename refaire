@@ -1,7 +1,0 @@
-make re && make clean && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_leak_rl ./minishell
-
-hgfd | < f | << r | << v << f fff | hgf "hgfd" |"" | ''  | "d'f'" | g"'r'" | "'f'"g | gfd"'fg'"fd
-
-$ fait un invalid free
-echo bonjour > $test    invaild free && fqit de lq merde
-123"abc"456 boucle ????

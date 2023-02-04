@@ -33,6 +33,7 @@ char	*find_env(char *str, t_mimi *shell)
 		}
 		y++;
 	}
+	shell->vent = ft_strlen(str);
 	free(str);
 	return (NULL);
 }

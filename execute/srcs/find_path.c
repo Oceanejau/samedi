@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 16:04:16 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/25 14:07:52 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 17:54:19 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ static void	free_all(char **str)
 	int	n;
 
 	n = 0;
-	while (str[n])
-		free(str[n++]);
-	free(str[n]);
-	free(str);
+	if (str)
+	{
+		while (str[n])
+			free(str[n++]);
+		free(str[n]);
+		free(str);
+	}
 }
 
 static char	*my_getenv(t_mimi *shell)
@@ -37,6 +40,22 @@ static char	*my_getenv(t_mimi *shell)
 	return (NULL);
 }
 
+static char	*test_for_first(char **split, char *cmd)
+{
+	char	*temp;
+	char	*temp2;
+
+	temp = ft_strdup(split[0] + 5);
+	temp2 = ft_strjoin(temp, "/");
+	free(temp);
+	temp = ft_strjoin(temp2, cmd);
+	free(temp2);
+	if (access(temp, F_OK & X_OK) == 0)
+		return (temp);
+	free(temp);
+	return (NULL);
+}
+
 char	*find_path(char *cmd, t_mimi *shell)
 {
 	char	**splited_path;
@@ -49,11 +68,10 @@ char	*find_path(char *cmd, t_mimi *shell)
 	splited_path = ft_split(my_getenv(shell), ':');
 	if (splited_path == NULL)
 		return (NULL);
-	n = 0;
-	temp = splited_path[n];
-	splited_path[n] = ft_substr(splited_path[n], 5,
-			splited_path[n] - ft_strchr(splited_path[n], ':'));
-	free(temp);
+	n = 1;
+	temp = test_for_first(splited_path, cmd);
+	if (temp)
+		return (free_all(splited_path), temp);
 	while (splited_path[n])
 	{
 		temp2 = ft_strjoin("/", cmd);
@@ -63,5 +81,6 @@ char	*find_path(char *cmd, t_mimi *shell)
 			return (free_all(splited_path), temp);
 		free(temp);
 	}
-	return (free_all(splited_path), cmd);
+	temp = ft_strdup(cmd);
+	return (free_all(splited_path), temp);
 }

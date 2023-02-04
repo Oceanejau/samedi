@@ -62,7 +62,7 @@ int	main(int ac, char **av, char **envp)
 			return (free_env(&shell), free_list(&shell),
 				free_fd((&shell)->save_fd), free_tab(shell.env), 0);
 		add_history(shell.line);
-		mani(&shell);
+		mani(&shell, 0);
 		show_list(&shell);
 		g_ret = 0;
 		heredoc_init(&shell);

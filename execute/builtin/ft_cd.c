@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:08:13 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 15:07:30 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 17:33:16 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,23 @@ static void	free_block(char ***block)
 	int	j;
 
 	i = 0;
-	while (block[i])
+	if (block)
 	{
-		j = 0;
-		while (block[i][j])
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
 	}
-	free(block[i]);
-	free(block);
 }
 
 static void	add_oldpwd(t_mimi *shell, char *str)
@@ -76,6 +79,7 @@ static int	do_home(t_mimi *shell, char *save)
 	{
 		if (!chdir(str))
 			add_oldpwd(shell, save);
+		free(str);
 	}
 	else
 		printf("cd: HOME not set\n");

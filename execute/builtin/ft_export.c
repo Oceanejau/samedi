@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 19:48:27 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 13:56:55 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 12:18:55 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,24 @@ static void	free_block(char ***block, t_mimi *shell)
 	int	j;
 
 	i = 0;
-	while (block[i])
+	if (block)
 	{
-		j = 0;
-		while (block[i][j])
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
+		free_list(shell);
 	}
-	free(block[i]);
-	free(block);
-	free_list(shell);
 }
 
 static int	check_valid_arg(char *str)

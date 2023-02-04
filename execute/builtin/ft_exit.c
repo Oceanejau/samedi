@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 19:33:08 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:51:32 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 16:19:58 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,23 @@ static void	free_block(char ***block)
 	int	j;
 
 	i = 0;
-	while (block[i])
+	if (block)
 	{
-		j = 0;
-		while (block[i][j])
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
 	}
-	free(block[i]);
-	free(block);
 }
 
 static int	ret_value(unsigned long long nbr, int sign)
@@ -86,16 +89,17 @@ int	ft_exit(char ***block, int index, t_mimi *shell, int *fd_btw_pipe)
 		printf("exit\n");
 	while (block[index][i])
 	{
+		if (i >= 2)
+			return (printf("exit: too many arguments\n"), 1);
 		if (analyze_str(block[index][i]))
 		{
 			printf("exit: %s: numeric argument required\n", block[index][i]);
+			free_block(block);
 			free_all_built(block, shell, fd_btw_pipe);
 			exit(2);
 		}
 		i++;
 	}
-	if (i >= 3)
-		return (printf("exit: too many arguments\n"), 1);
 	free_block(block);
 	free_all_built(block, shell, fd_btw_pipe);
 	exit(j);

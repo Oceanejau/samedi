@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 16:11:55 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 13:55:14 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 17:18:34 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,23 @@ static void	free_block(char ***block)
 	int	j;
 
 	i = 0;
-	while (block[i])
+	if (block)
 	{
-		j = 0;
-		while (block[i][j])
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
 	}
-	free(block[i]);
-	free(block);
 }
 
 static void	wait_child(char ***block)
@@ -61,22 +64,69 @@ static void	wait_child(char ***block)
 	}
 }
 
+static int	is_there_something(char ***block)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (block[i])
+	{
+		j = 0;
+		while (block[i][j])
+		{
+			if (block[i][j] != NULL)
+				count++;
+			j++;
+		}
+		i++;
+	}
+	if (count)
+		return (1);
+	return (0);
+}
+
+static void	make_files(char ***block, t_mimi *shell)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (block[i])
+	{
+		j = 0;
+		while (block[i][j])
+		{
+			if (is_redir(block, i, j, shell))
+				deal_with_redir(block, i, j, shell);
+			j++;
+		}
+		i++;
+	}
+}
+
 int	better_exec(char ***block, t_mimi *shell)
 {
 	int		i;
 	int		fd_btw_pipe;
 
 	i = 0;
-	fd_btw_pipe = dup(STDIN_FILENO);
-	if (fd_btw_pipe == -1)
-		return (perror("dup"), 1);
-	while (block[i] && block[i][0])
+	if (is_there_something(block))
 	{
-		if (execute_stuff(block, i, &fd_btw_pipe, shell) == -1)
-			return (1);
-		i++;
+		catch_signal(PARENT);
+		make_files(block, shell);
+		fd_btw_pipe = dup(STDIN_FILENO);
+		if (fd_btw_pipe == -1)
+			return (perror("dup"), 1);
+		while (block[i] && block[i][0])
+		{
+			execute_stuff(block, i, &fd_btw_pipe, shell);
+			i++;
+		}
+		wait_child(block);
+		return (free_block(block), 0);
 	}
-	catch_signal(PARENT);
-	wait_child(block);
 	return (free_block(block), 0);
 }

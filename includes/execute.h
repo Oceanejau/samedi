@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:23:17 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 22:48:06 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 13:58:13 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 # include "../execute/libft/libft.h"
 # include "minishell.h"
 
-#define MAIN 1
-#define PARENT 2
-#define CHILD 3
-#define HD 4
+# define MAIN 1
+# define PARENT 2
+# define CHILD 3
+# define HD 4
 
 enum	e_redir
 {
@@ -49,11 +49,11 @@ int		is_redir(char ***block, int index, int n, t_mimi *shell);
 char	*find_path(char *cmd, t_mimi *shell);
 char	*find_cmd(char ***block, int index, t_mimi *shell);
 void	skip_redir(char ***block, int index, int *n, t_mimi *shell);
-char	**create_args(char ***block, int index, t_mimi *shell);
+char	**create_args(char ***block, int index, t_mimi *shell, int i);
 int		deal_with_redir(char ***block, int index, int n, t_mimi *shell);
-int		outfile_dou_modif(char *file, int fd);
-int		outfile_modif(char *file, int fd);
-int		infile_modif(char *file, int fd);
+int		outfile_dou_modif(char *file);
+int		outfile_modif(char *file);
+int		infile_modif(char *file);
 int		exec_bin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe);
 int		execute_stuff(char ***block, int index,
 			int *fd_btw_pipe, t_mimi *shell);
@@ -84,7 +84,8 @@ int		builtin_finder(char *name);
 int		exec_builtin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe);
 int		exec_prebuiltin(char ***block, int index,
 			int *fd_btw_pipe, t_mimi *shell);
-int		exec_solobuiltin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe);
+int		exec_solobuiltin(char ***block, int index, t_mimi *shell,
+			int *fd_btw_pipe);
 int		ft_pwd( char ***block, int index, t_mimi *shell);
 int		ft_echo( char ***block, int index, t_mimi *shell);
 int		ft_env(char ***block, int index, t_mimi *shell);
@@ -98,7 +99,7 @@ int		ft_soloenv(char ***block, int index, t_mimi *shell);
 int		ft_solocd(char ***block, int index, t_mimi *shell);
 int		ft_solounset(char ***block, int index, t_mimi *shell);
 int		ft_soloexport(char ***block, int index, t_mimi *shell);
-void 	echo_comp(char ***block, int index, int i, t_mimi *shell);
+void	echo_comp(char ***block, int index, int i, t_mimi *shell);
 void	free_all_built(char ***block, t_mimi *shell, int *fd);
 void	add_stuff_export(char *str, t_list *temp);
 

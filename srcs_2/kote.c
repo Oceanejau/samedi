@@ -54,15 +54,13 @@ void	mani_free(t_mimi *shell, char *str)
 	free(str);
 }
 
-int	mani(t_mimi *shell)
+int	mani(t_mimi *shell, int x)
 {
 	char	*str;
-	int		x;
 
-	str = NULL;
 	shell->quote = 0;
 	shell->nb_hd = 0;
-	x = 0;
+	str = NULL;
 	while (shell->line != NULL && shell->line[x] != '\0')
 	{
 		if (str_c(shell->instr, shell->line[x]) != 10
@@ -82,5 +80,5 @@ int	mani(t_mimi *shell)
 		}
 		x++;
 	}
-	return (0);
+	return (modif_list_quote(shell));
 }

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:56:45 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/27 15:26:51 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 12:19:20 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,23 @@ static void	free_block(char ***block)
 	int	j;
 
 	i = 0;
-	while (block[i])
+	if (block)
 	{
-		j = 0;
-		while (block[i][j])
+		while (block[i])
 		{
+			j = 0;
+			while (block[i][j])
+			{
+				free(block[i][j]);
+				j++;
+			}
 			free(block[i][j]);
-			j++;
+			free(block[i]);
+			i++;
 		}
-		free(block[i][j]);
 		free(block[i]);
-		i++;
+		free(block);
 	}
-	free(block[i]);
-	free(block);
 }
 
 int	ft_solopwd(char ***block, int index)

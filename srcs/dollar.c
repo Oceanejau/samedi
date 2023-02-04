@@ -15,11 +15,11 @@ char	*dol_else(t_mimi *shell, int x)
 {
 	char	*copy;
 
-	if (shell->t != NULL)
+	if (shell->fre != 1 && shell->t != NULL)
 	{
 		shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x + 1));
 		copy = ft_strdup(shell->t);
-		///free(str);//
+		free(shell->t);
 		shell->t = cut_i(copy, x + 1);
 		free(copy);
 	}
@@ -31,7 +31,10 @@ char	*dol_else(t_mimi *shell, int x)
 char	*bb_mid(t_mimi *shell, int x, int y)
 {
 	if (y == 0 && shell->t[x + y] == '?')
+	{
 		shell->tmp = ptit_bidule(shell, x);
+		y++;
+	}
 	else if (shell->t && shell->t[x + y] != '\0' && shell->t[x + y] != '$'
 		&& str_c(shell->instr, shell->t[x + y]) == 10)
 		return (char_err("something went wrong with this variable", 2));
@@ -42,29 +45,36 @@ char	*bb_mid(t_mimi *shell, int x, int y)
 	return (shell->tmp);
 }
 
+void	dolly(t_mimi *shell, int x)
+{
+	char	*copy;
+
+	if (x > 1)
+		shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x - 1));
+	copy = ft_strdup(shell->t);
+	free(shell->t);
+	shell->t = cut_i(copy, x + 1);
+	free(copy);
+	return ;
+}
+
 char	*doll(t_mimi *shell, int x)
 {
-	int		y;
-	char	*copy;
+	int	y;
 
 	y = 0;
 	if (ft_is_nb(shell->t[x]) == 1)
-	{
-		if (x > 1)
-			shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x - 1));
-		copy = ft_strdup(shell->t);
-		free(shell->t);
-		shell->t = cut_i(copy, x + 1);
-		free(copy);
-	}
+		dolly(shell, x);
 	else if (ft_is_nb(shell->t[x]) != 1)
 	{
-		while ((ft_is_nb(shell->t[x + y]) == 1 || ft_is_alpha(shell->t[x + y]) == 1
-				|| shell->t[x + y] == '_') && shell->t[x + y] != '\0')
+		while ((ft_is_nb(shell->t[x + y]) == 1 || ft_is_alpha(shell->t[x + y])
+				== 1 || shell->t[x + y] == '_') && shell->t[x + y] != '\0')
 			y++;
 		shell->tmp = bb_mid(shell, x, y);
-	//	printf("TMP sortie = -%s-\n", shell->tmp);
-		if (shell->t != NULL && shell->t[x] != '\0' && shell->t[x + 1] == '$')
+		if (shell->vent != 0)
+			y = shell->vent;
+		else if (shell->t != NULL && shell->t[x] != '\0' && shell->t[x + 1]
+			== '$')
 			shell->t = re_ptit_bidule(shell, x);
 		shell->t = ptit_bout_d_free(shell, x, y);
 	}
@@ -75,16 +85,15 @@ char	*doll(t_mimi *shell, int x)
 
 char	*dollary(char *str, t_mimi *shell, int x)
 {
-//	printf("DOLLAR -%s-\n", shell->t);
+	shell->vent = 0;
 	shell->tmp = NULL;
 	shell->t = str;
 	if (shell->t == shell->line)
 		shell->same = 1;
 	shell->size = ft_strlenn(shell->t);
 	shell->s = ft_strlenn(shell->line);
-	while (shell->fre != 1 && /*str && ft_strlenn(str) > 0 &&*/ (shell->t[x] && shell->t[x] != '\0'))
+	while (shell->fre != 1 && (shell->t && shell->t[x] != '\0'))
 	{
-		///printf("STR = -%s-, tmp =-%s-\n", shell->t, shell->tmp);
 		if (shell->t[x] == '$')
 		{
 			x++;

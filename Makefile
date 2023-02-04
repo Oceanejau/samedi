@@ -1,8 +1,8 @@
 NAME		=	minishell
 NAME_SAN	=	minishellitized
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -g3
-FLAGS 		=	-Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS		=	-Wall -Wextra -Werror
+FLAGS 		=	-Wall -Wextra -Werror -fsanitize=address -fsanitize=leak -fsanitize=undefined -g3
 LFLAGS		=	-lreadline
 INCLUDES	=	./includes
 SRCS		=	srcs_2/cpy_from_two_pos.c\
@@ -29,10 +29,10 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs_2/repartiteur.c\
 				srcs_2/str_comp.c\
 				srcs_2/tab_et_et.c\
+				srcs_2/modif_list_quote.c\
 				srcs_2/show_list.c\
 				srcs/cpy_from_two_pos.c\
 				srcs/ptit.c\
-				srcs/cut_from_pos.c\
 				srcs/dollar.c\
 				srcs/find_env.c\
 				srcs/ft_is.c\

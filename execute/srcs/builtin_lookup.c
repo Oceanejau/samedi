@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 19:10:07 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/29 21:51:41 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 14:29:12 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	exec_solobuiltin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe)
 	cmd = find_cmd(block, index, shell);
 	last_cmd(block, index, fd_btw_pipe);
 	if (preroutine(block, index, shell) == 1)
-		return (1);
+		return (free(cmd), 1);
 	if (builtin_finder(cmd) == 0)
 		return (free(cmd), ft_solocd(block, index, shell));
 	if (builtin_finder(cmd) == 1)

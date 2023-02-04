@@ -15,6 +15,7 @@ char	*ptit_bidule(t_mimi *shell, int x)
 {
 	shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x - 1));
 	shell->tmp = joi(shell->tmp, ft_itoaa(g_ret));
+	shell->t = re_ptit_bidule(shell, 1);
 	return (shell->tmp);
 }
 
@@ -63,7 +64,6 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 
 	if (shell->fre != 1)
 	{
-	//	printf("entre\n");
 		copy = ft_strdup(shell->t);
 		free(shell->t);
 		shell->t = cut_i(copy, x + y);
@@ -78,6 +78,5 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 	}
 	if (shell->fre != 1 && shell->t == NULL && shell->size == shell->s)
 		ptit_free(shell);
-//	printf("STR apres le free? -%s-\n", shell->t);
 	return (shell->t);
 }

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:04:50 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 22:56:33 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 12:34:16 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,12 @@ int	write_in_hd(t_mimi *shell, int index, char *delim)
 		if (g_ret == 130)
 			break ;
 		if (!str)
-		{
-			ft_putstr_fd("warning :here-document delimited by EOF\n",
-				STDERR_FILENO);
-			return (free(delim), free(str), 1);
-		}
+			return (ft_putstr_fd("warning :here-document delimited by EOF\n",
+					STDERR_FILENO), free(delim), free(str), 1);
 		if (!ft_strncmp(delim, str, ft_strlen(delim)))
 			return (free(delim), free(str), 0);
-		/*mettre ici fonction pour expand*/
+		while (next_kote(str, '$', 0) != -1)
+			str = dollary(str, shell, 0);
 		write(shell->hd.tab_fd[index], str, ft_strlen(str));
 		write(shell->hd.tab_fd[index], "\n", 1);
 		free(str);

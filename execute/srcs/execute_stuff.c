@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:07:29 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/29 21:52:10 by wmari            ###   ########.fr       */
+/*   Updated: 2023/01/31 16:07:07 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	exec_pid0(char ***block, int index, int *fd_btw_pipe, int *pipefd)
 
 int	exec_parent(int *pipefd, char ***block, int index, int *fd_btw_pipe)
 {
-	signal(SIGINT, SIG_IGN);
+	catch_signal(PARENT);
 	if (close(pipefd[1]) == -1)
 		return (-1);
 	if (block[index + 1])
@@ -91,7 +91,8 @@ int	execute_stuff(char ***block, int index, int *fd_btw_pipe, t_mimi *shell)
 
 	cmd = find_cmd(block, index, shell);
 	if (!cmd)
-		return (perror("malloc"), errno);
+		return (ft_putstr_fd("Can't find command or malloc failed\n",
+				STDERR_FILENO), 1);
 	if (builtin_finder(cmd) != -1)
 	{
 		free(cmd);

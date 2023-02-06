@@ -1,7 +1,7 @@
 NAME		=	minishell
 NAME_SAN	=	minishellitized
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g3
 FLAGS 		=	-Wall -Wextra -Werror -fsanitize=address -fsanitize=leak -fsanitize=undefined -g3
 LFLAGS		=	-lreadline
 INCLUDES	=	./includes

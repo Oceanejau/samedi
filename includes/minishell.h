@@ -76,6 +76,7 @@ typedef struct s_mimi
 	char		*tmp;
 	char		*str;
 	char		*args;
+	char		*f_env;
 	char		*line;
 	char		*command;
 	const char	*file;
@@ -89,8 +90,7 @@ typedef struct s_mimi
 
 extern int		g_ret;
 
-int modif_list_quote(t_mimi *shell);
-
+int		modif_list_quote(t_mimi *shell);
 char	*ft_itoaa(int n);
 char	*cpy_from_two_posi(t_mimi *shell, int s, int e);
 int		str_c(char *str, char c);
@@ -153,7 +153,7 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y);
 char	*dol_fin(t_mimi *shell);
 void	ptit_free(t_mimi *shell);
 char	*re_ptit_bidule(t_mimi *shell, int x);
-char	*ptit_bidule(t_mimi *shell, int x);
+void	ptit_bidule(t_mimi *shell, int x);
 void	show_list(t_mimi *shell);
 
 #endif

@@ -47,6 +47,7 @@ char	*do_end(t_mimi *shell)
 		if (str[x] == '$')
 		{
 			tmp = join(tmp, dollary(str, shell, x));
+		//	printf("DO_END tmp = %s\n", tmp);
 			return (do_end_nxt(shell, tmp, str));
 		}
 		else

@@ -88,6 +88,7 @@ char	*ft_itoaa(int n)
 	}
 	str[i++] = (nb % 10 + '0');
 	str[i++] = '\0';
+	//printf("str = -%s-\n", str);/////
 	ft_rev_str(str, ft_strlenn(str));
 	return (str);
 }

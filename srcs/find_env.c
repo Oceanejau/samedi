@@ -18,6 +18,12 @@ char	*find_env(char *str, t_mimi *shell)
 	int		z;
 
 	y = 0;
+	//printf("FIND========== %s\n", str);
+	if (str == NULL)
+	{
+	//	free(str);
+		return (NULL);
+	}
 	while (str && shell->env[y] != NULL)
 	{
 		z = 0;
@@ -27,13 +33,16 @@ char	*find_env(char *str, t_mimi *shell)
 		{
 			tmp = cpy_from_two_pos(shell->env[y], where_charly(shell->env[y],
 						0, '=') + 1, ft_strlenn(shell->env[y]));
-			shell->s = ft_strlenn(str) + 1;
+			//shell->s = ft_strlenn(str) + 1;
+		//	printf("STR de find = %s, tmp = %s\n\n",str, tmp);
+
 			free(str);
 			return (tmp);
 		}
 		y++;
 	}
 	shell->vent = ft_strlen(str);
+//	printf("STR de find = %s\n\n",str);
 	free(str);
 	return (NULL);
 }

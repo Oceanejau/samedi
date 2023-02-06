@@ -25,5 +25,6 @@ char	*cpy_from_two_posi(t_mimi *shell, int s, int e)
 	while (s < e)
 		tmp[x++] = shell->t[s++];
 	tmp[x] = '\0';
+//	printf("TMP = %s, %s\n", tmp, shell->t);
 	return (tmp);
 }

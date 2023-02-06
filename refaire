@@ -1,0 +1,14 @@
+"$USER.$USER"
+123$?abc // invalid read
+"123$HOME?456"
+"123$HOME$ ?456"
+$?$?$?
+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
+hgfd | < f | << r | << v << f fff | hgf "hgfd" |"" | ''  | "d'f'" | g"'r'" | "'f'"g | gfd"'fg'"fd
+
+
+
+$$ $$$HOME /// manque un dollar
+
+
+make re && make clean && valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_leak_rl ./minishell

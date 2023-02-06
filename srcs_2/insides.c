@@ -28,7 +28,6 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 		tmp = join(tmp, malicious("\'\'"));
 		shell->type = QUOTE;
 	}
-
 	y = next_kote(tmp, '$', 0);
 	if (y >= 0)
 		tmp = join(NULL, dollary(tmp, shell, next_kote(tmp, '$', 0)));
@@ -49,7 +48,7 @@ char	*inside_kote_39(char *str, t_mimi *shell, int x, int c_pos)
 	if (str == NULL && shell->line[0] == 39 && shell->line[1] == 39
 		&& (str_c(shell->instr, shell->line[2]) < 2 || shell->line[2] == '\0'))
 	{
-		tmp = join(tmp, malicious("\'\'"));///ici quote 3
+		tmp = join(tmp, malicious("\'\'"));
 		shell->type = QUOTE;
 	}
 	if (c_pos > 0 && shell->line[c_pos - 1] == '$')

@@ -1,0 +1,48 @@
+==675428== Memcheck, a memory error detector
+==675428== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==675428== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==675428== Command: ./minishell
+==675428== Parent PID: 671520
+==675428== 
+==675452== 
+==675452== HEAP SUMMARY:
+==675452==     in use at exit: 204,677 bytes in 218 blocks
+==675452==   total heap usage: 766 allocs, 548 frees, 237,304 bytes allocated
+==675452== 
+==675452== LEAK SUMMARY:
+==675452==    definitely lost: 0 bytes in 0 blocks
+==675452==    indirectly lost: 0 bytes in 0 blocks
+==675452==      possibly lost: 0 bytes in 0 blocks
+==675452==    still reachable: 0 bytes in 0 blocks
+==675452==         suppressed: 204,677 bytes in 218 blocks
+==675452== 
+==675452== For lists of detected and suppressed errors, rerun with: -s
+==675452== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==675494== 
+==675494== HEAP SUMMARY:
+==675494==     in use at exit: 204,717 bytes in 221 blocks
+==675494==   total heap usage: 859 allocs, 638 frees, 240,952 bytes allocated
+==675494== 
+==675494== LEAK SUMMARY:
+==675494==    definitely lost: 0 bytes in 0 blocks
+==675494==    indirectly lost: 0 bytes in 0 blocks
+==675494==      possibly lost: 0 bytes in 0 blocks
+==675494==    still reachable: 0 bytes in 0 blocks
+==675494==         suppressed: 204,717 bytes in 221 blocks
+==675494== 
+==675494== For lists of detected and suppressed errors, rerun with: -s
+==675494== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==675428== 
+==675428== HEAP SUMMARY:
+==675428==     in use at exit: 204,772 bytes in 226 blocks
+==675428==   total heap usage: 926 allocs, 700 frees, 244,089 bytes allocated
+==675428== 
+==675428== LEAK SUMMARY:
+==675428==    definitely lost: 0 bytes in 0 blocks
+==675428==    indirectly lost: 0 bytes in 0 blocks
+==675428==      possibly lost: 0 bytes in 0 blocks
+==675428==    still reachable: 0 bytes in 0 blocks
+==675428==         suppressed: 204,772 bytes in 226 blocks
+==675428== 
+==675428== For lists of detected and suppressed errors, rerun with: -s
+==675428== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

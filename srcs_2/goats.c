@@ -69,6 +69,7 @@ char	*goats(t_mimi *shell, int x)
 		{
 			c_pos = x;
 			tmp = top_goats(shell, tmp, c_pos);
+		//	printf("tmp goats = %s\n", tmp);///////
 			c_pos = -1;
 			x = -1;
 		}

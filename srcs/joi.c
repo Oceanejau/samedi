@@ -44,10 +44,11 @@ char	*joi(char *s1, char *s2)
 		return (char_err("failed to allocate memory", 2));
 	while (s1[++x] != '\0')
 		tmp[x] = s1[x];
-	y = 0;
-	while (s2[y] != '\0')
-		tmp[x++] = s2[y++];
-	tmp[x] = '\0';
+	y = -1;
+	//printf("x = %d, s1 = %s s2 %s\n", x, s1, s2);
+	while (s2[++y] != '\0')
+		tmp[x + y] = s2[y];
+	tmp[x + y] = '\0';
 	if (s1)
 		free(s1);
 	if (s2)

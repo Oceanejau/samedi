@@ -40,6 +40,7 @@ char	*do_end(t_mimi *shell)
 	int		x;
 
 	x = 0;
+	printf("Do end \n");
 	tmp = NULL;
 	str = shell->line;
 	while (str && str[x] != '\0')
@@ -47,7 +48,6 @@ char	*do_end(t_mimi *shell)
 		if (str[x] == '$')
 		{
 			tmp = join(tmp, dollary(str, shell, x));
-		//	printf("DO_END tmp = %s\n", tmp);
 			return (do_end_nxt(shell, tmp, str));
 		}
 		else
@@ -57,5 +57,6 @@ char	*do_end(t_mimi *shell)
 		}
 		x = 0;
 	}
+	printf("shell->line %s, tmp = %s\n", shell->line, tmp);
 	return (do_end_lst(shell, tmp, str));
 }

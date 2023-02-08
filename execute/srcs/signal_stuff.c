@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 12:02:38 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 14:54:23 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/07 19:33:38 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ static void	sig_int_hd(int sig)
 	g_ret = 130;
 }
 
-static void	sig_int_child(int sig)
-{
-	(void)sig;
-	printf("coucou\n");
-	ft_putstr_fd("^C\n", STDOUT_FILENO);
-	ft_putstr_fd("^C\n\n\n", STDERR_FILENO);
-}
-
 void	catch_signal(int mode)
 {
 	if (mode == MAIN)
@@ -55,7 +47,7 @@ void	catch_signal(int mode)
 	}
 	else if (mode == CHILD)
 	{
-		signal(SIGINT, sig_int_child);
+		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (mode == HD)

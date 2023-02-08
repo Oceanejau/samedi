@@ -5,36 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 20:16:19 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 12:18:01 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 12:04:11 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:29:48 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block)
+static int	return_echo_child(
+	char ***block,
+	t_mimi *shell,
+	int *fbp,
+	char **args)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	if (block)
+	i = count_pipe(shell);
+	free_tab(args);
+	if (i >= 2)
 	{
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
+		free_tab(shell->env);
+		free_list(shell);
+		free_env(shell);
+		free_block(block);
+		close(*fbp);
+		free_sfd(shell->save_fd);
+		exit(0);
 	}
+	g_ret = 0;
+	return (0);
 }
 
 static int	deal_flags(char *str)
@@ -56,48 +55,30 @@ static int	deal_flags(char *str)
 		return (0);
 }
 
-static int	resolution_empty(void)
+int	ft_echo(char ***block, int index, t_mimi *shell, int *fbp)
 {
-	printf("\n");
-	exit(0);
-}
+	int		i;
+	int		flag;
+	char	**args;
 
-int	ft_echo(char ***block, int index, t_mimi *shell)
-{
-	int	i;
-	int	flag;
-
+	args = create_args(block, index, shell);
+	if (!args)
+		return (return_error(block, fbp, shell));
+	if (!ft_strncmp(args[0], "", ft_strlen(args[0])))
+		return (printf("\n"), return_echo_child(block, shell, fbp, args));
 	i = 1;
-	flag = 0;
-	if (!block[index][i])
-		resolution_empty();
-	while (block[index][i] && deal_flags(block[index][i]))
+	while (args[i] && deal_flags(args[i]))
 		i++;
+	flag = 0;
 	if (i > 1)
 		flag = 1;
-	echo_comp(block, index, i, shell);
+	while (args[i])
+	{
+		printf("%s", args[i++]);
+		if (args[i])
+			printf(" ");
+	}
 	if (flag == 0)
 		printf("\n");
-	free_block(block);
-	free_list(shell);
-	return (0);
-}
-
-int	ft_soloecho(char ***block, int index, t_mimi *shell)
-{
-	int	i;
-	int	flag;
-
-	i = 1;
-	flag = 0;
-	if (!block[index][i])
-		return (printf("\n"));
-	while (block[index][i] && deal_flags(block[index][i]))
-		i++;
-	if (i > 1)
-		flag = 1;
-	echo_comp(block, index, i, shell);
-	if (flag == 0)
-		printf("\n");
-	return (0);
+	return (return_echo_child(block, shell, fbp, args));
 }

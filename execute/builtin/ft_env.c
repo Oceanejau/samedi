@@ -5,59 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 18:46:28 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 12:18:17 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 12:31:10 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:31:00 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block)
+int	ft_env(char ***block, int index, t_mimi *shell, int *fbp)
 {
 	int	i;
-	int	j;
+	int	count_cmd;
 
+	(void)index;
 	i = 0;
-	if (block)
+	while (shell->env[i])
+		printf("%s\n", shell->env[i++]);
+	count_cmd = count_pipe(shell);
+	if (count_cmd)
 	{
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
+		free_tab(shell->env);
+		free_env(shell);
+		free_list(shell);
+		free_block(block);
+		close(*fbp);
+		free_sfd(shell->save_fd);
 	}
-}
-
-int	ft_env(char ***block, int index, t_mimi *shell)
-{
-	int	i;
-
-	(void)index;
-	i = 0;
-	while (shell->env[i])
-		printf("%s\n", shell->env[i++]);
-	free_block(block);
-	free_list(shell);
-	return (0);
-}
-
-int	ft_soloenv(char ***block, int index, t_mimi *shell)
-{
-	int	i;
-
-	(void)index;
-	(void)block;
-	i = 0;
-	while (shell->env[i])
-		printf("%s\n", shell->env[i++]);
+	g_ret = 0;
+	if (count_cmd >= 2)
+		exit(0);
 	return (0);
 }

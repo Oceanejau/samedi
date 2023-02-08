@@ -16,6 +16,7 @@ char	*nexty(t_mimi *shell, char *msg, char *tmp)
 	free(shell->line);
 	free(tmp);
 	shell->line = NULL;
+	shell->ret = -1;
 	return (char_err(msg, shell->retnex));
 }
 
@@ -29,6 +30,7 @@ char	*nexy(t_mimi *shell, char *msg, char c, char *tmp)
 	ft_putchar_fd(c, 2);
 	ft_putstr_fd("'\n", 2);
 	g_ret = shell->retnex;
+	shell->ret = -1;
 	return (NULL);
 }
 
@@ -40,6 +42,7 @@ char	*ney(t_mimi *shell, char *msg, int ret, char c)
 	ft_putstr_fd(msg, 2);
 	ft_putchar_fd(c, 2);
 	ft_putstr_fd("'\n", 2);
+	shell->ret = -1;
 	g_ret = ret;
 	return (NULL);
 }
@@ -53,6 +56,7 @@ char	*neyy(t_mimi *shell, char *msg, char c)
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd(c, 2);
 	ft_putstr_fd("'\n", 2);
+	shell->ret = -1;
 	g_ret = shell->retnex;
 	return (NULL);
 }

@@ -5,36 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 19:33:08 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 16:19:58 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 12:41:49 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:31:09 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block)
+static void	return_exit(char ***block, char **args, t_mimi *shell, int *fbp)
 {
-	int	i;
-	int	j;
+	ft_putstr_fd("exit:", STDERR_FILENO);
+	ft_putstr_fd(args[1], STDERR_FILENO);
+	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	free_block(block);
+	free_tab(args);
+	free_tab(shell->env);
+	free_list(shell);
+	free_env(shell);
+	free_sfd(shell->save_fd);
+	close(*fbp);
+	exit(2);
+}
 
-	i = 0;
-	if (block)
-	{
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
-	}
+static void	normal_exit(char ***block, char **args, t_mimi *shell, int *fbp)
+{
+	free_block(block);
+	free_tab(args);
+	free_tab(shell->env);
+	free_list(shell);
+	free_env(shell);
+	free_sfd(shell->save_fd);
+	close(*fbp);
 }
 
 static int	ret_value(unsigned long long nbr, int sign)
@@ -76,31 +77,30 @@ static int	analyze_str(char *str)
 	return (ret_value(nbr, sign));
 }
 
-int	ft_exit(char ***block, int index, t_mimi *shell, int *fd_btw_pipe)
+int	ft_exit(char ***block, int index, t_mimi *shell, int *fbp)
 {
-	int	i;
-	int	j;
+	char	**args;
+	int		i;
+	int		j;
 
+	args = create_args(block, index, shell);
+	if (!args)
+		return (return_error(block, fbp, shell));
 	i = 1;
 	j = 0;
-	if (block[index][1])
-		j = ft_atoi(block[index][1]);
-	if (nb_cmd(block) < 2)
+	if (args[i])
+		j = ft_atoi(args[i]);
+	if (count_pipe(shell))
 		printf("exit\n");
-	while (block[index][i])
+	while (args[i])
 	{
 		if (i >= 2)
-			return (printf("exit: too many arguments\n"), 1);
-		if (analyze_str(block[index][i]))
-		{
-			printf("exit: %s: numeric argument required\n", block[index][i]);
-			free_block(block);
-			free_all_built(block, shell, fd_btw_pipe);
-			exit(2);
-		}
+			return (ft_putstr_fd("exit: too many arguments\n",
+					STDERR_FILENO), free_tab(args), 1);
+		if (analyze_str(args[i]))
+			return_exit(block, args, shell, fbp);
 		i++;
 	}
-	free_block(block);
-	free_all_built(block, shell, fd_btw_pipe);
+	normal_exit(block, args, shell, fbp);
 	exit(j);
 }

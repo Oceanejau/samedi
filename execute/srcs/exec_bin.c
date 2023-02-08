@@ -5,99 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 15:12:44 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 17:29:36 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/02 11:50:29 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:49:31 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block)
+int	return_error_pipe(char ***block, int *fbp, t_mimi *shell)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (block[i])
-	{
-		j = 0;
-		while (block[i][j])
-		{
-			free(block[i][j]);
-			j++;
-		}
-		free(block[i][j]);
-		free(block[i]);
-		i++;
-	}
-	free(block[i]);
-	free(block);
+	return (ft_putstr_fd("pipe: ", STDERR_FILENO),
+		ft_putstr_fd(strerror(errno), STDERR_FILENO),
+		return_error_redir(block, fbp, shell, NULL), 1);
 }
 
-void	free_all_bin(
-		char **str,
-		t_mimi *shell,
-		char ***block,
-		char *cmd)
+int	return_error_fork(char ***block, int *fbp, t_mimi *shell)
 {
-	int	n;
+	return (ft_putstr_fd("fork: ", STDERR_FILENO),
+		ft_putstr_fd(strerror(errno), STDERR_FILENO),
+		return_error_redir(block, fbp, shell, NULL), 1);
+}
 
-	n = 0;
-	if (str)
+int	return_error_redir(char ***block, int *fbp, t_mimi *shell, int *pipefd)
+{
+	if (pipefd)
 	{
-		while (str[n])
-			free(str[n++]);
-		free(str[n]);
-		free(str);
+		close(pipefd[0]);
+		close(pipefd[1]);
 	}
-	if (cmd)
-		free(cmd);
-	free_list(shell);
-	if (block)
+	if (count_pipe(shell))
+	{
 		free_block(block);
-	if (shell->envlist)
 		free_env(shell);
-	if (shell->env)
-		free_envchar(shell);
-	free_fd(shell->save_fd);
-}
-
-static void	redir_stuff(char ***block, int index, t_mimi *shell, char **args)
-{
-	int	n;
-
-	n = -1;
-	while (block[index][++n])
-	{
-		if (is_redir(block, index, n, shell))
-		{
-			if (deal_with_redir(block, index, n, shell))
-			{
-				free_all_bin(args, shell, block, NULL);
-				exit(EXIT_FAILURE);
-			}
-		}
+		free_list(shell);
+		free_sfd(shell->save_fd);
+		close(*fbp);
+		free_tab(shell->env);
+		exit (1);
 	}
+	return (1);
 }
 
-int	exec_bin(char ***block, int index, t_mimi *shell, int *fd_btw_pipe)
+static void	return_error_bin(char ***block, int *fbp, t_mimi *shell)
 {
-	char	**args;
-	char	*cmd;
-	char	*temp;
+	free_block(block);
+	close(*fbp);
+	free_env(shell);
+	free_list(shell);
+	free_sfd(shell->save_fd);
+	free_tab(shell->env);
+	exit(1);
+}
 
-	args = create_args(block, index, shell, 0);
-	if (args == NULL)
-		return (free_all_bin(NULL, shell, block, NULL), 1);
-	redir_stuff(block, index, shell, args);
-	temp = find_cmd(block, index, shell);
-	cmd = find_path(temp, shell);
-	free(temp);
-	if (!ft_strncmp(cmd, ".", 1) || !ft_strncmp(cmd, "/", 1))
-		execve(cmd, args, shell->env);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	close(*fd_btw_pipe);
-	free_all_bin(args, shell, block, cmd);
+int	exec_bin(char ***block, int index, int *fbp, t_mimi *shell)
+{
+	int		pipefd[2];
+	pid_t	pid;
+
+	if (pipe(pipefd) == -1)
+		return (free_block(block), return_error_pipe(block, fbp, shell));
+	pid = fork();
+	if (pid == -1)
+		return (free_block(block), close(pipefd[0]),
+			close(pipefd[1]), return_error_fork(block, fbp, shell));
+	else if (pid == 0)
+	{
+		if (create_file_redir(shell, index))
+			return (return_error_redir(block, fbp, shell, pipefd));
+		if (do_stuff_child(block, index, fbp, pipefd))
+			return_error_bin(block, fbp, shell);
+		exec_child(block, index, fbp, shell);
+		close(pipefd[1]);
+		exit(127);
+	}
+	else
+		do_stuff_parent(pipefd, block, index, fbp);
 	return (0);
 }

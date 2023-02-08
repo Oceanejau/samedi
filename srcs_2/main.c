@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 15:28:17 by ojauregu          #+#    #+#             */
-/*   Updated: 2023/01/27 16:48:06 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/08 15:28:19 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	main(int ac, char **av, char **envp)
 		rl_on_new_line();
 		if (!shell.line)
 			return (free_env(&shell), free_list(&shell),
-				free_fd((&shell)->save_fd), free_tab(shell.env), 0);
+				free_sfd((&shell)->save_fd), free_tab(shell.env), 0);
 		add_history(shell.line);
 		mani(&shell, 0);
 		show_list(&shell);
 		g_ret = 0;
 		heredoc_init(&shell);
 		if (g_ret != 130)
-			better_exec(list_to_block((&shell)->list), &shell);
+			execute(&shell, list_to_block((&shell)->list));
 		reset_stuff(&shell);
 	}
 	return (0);

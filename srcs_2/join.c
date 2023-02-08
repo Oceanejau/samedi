@@ -32,6 +32,7 @@ char	*join(char *s1, char *s2)
 	int		y;
 
 	x = -1;
+//	printf("join = %s, %s\n", s1, s2);
 	if (s1 == NULL || s2 == NULL)
 		return (join_s(s1, s2));
 	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlenn(s1)

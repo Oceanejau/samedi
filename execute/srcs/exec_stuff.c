@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_cmd.c                                         :+:      :+:    :+:   */
+/*   exec_stuff.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 11:33:56 by wmari             #+#    #+#             */
-/*   Updated: 2023/02/08 15:22:26 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/02 11:27:24 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:53:24 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-char	*find_cmd(t_mimi *shell, int index)
+int	execute_stuff(char ***block, int index, int *fbp, t_mimi *shell)
 {
-	int		count_pipe;
-	t_list	*temp;
+	char	*cmd;
 
-	temp = shell->list;
-	count_pipe = 0;
-	while (count_pipe != index)
+	cmd = find_cmd(shell, index);
+	if (cmd)
 	{
-		if (temp->type == PIPE)
-			count_pipe++;
-		temp = temp->next;
+		if (builtin_finder(cmd) != -1)
+			return (free(cmd), exec_builtin(block, index, fbp, shell));
+		else if (block[index][0][0] == '\0')
+			return (free(cmd), exec_empty(block, index, fbp, shell));
+		else
+			return (free(cmd), exec_bin(block, index, fbp, shell));
 	}
-	while (temp)
-	{
-		if (temp->type == TXT || temp->type == QUOTE)
-			return (ft_strdup(temp->str));
-		temp = temp->next;
-	}
-	return (NULL);
+	else
+		create_file_redir(shell, index);
+	return (0);
 }

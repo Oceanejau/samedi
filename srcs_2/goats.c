@@ -26,7 +26,6 @@ char	*goty(t_mimi *shell, char *msg, int ret, char c)
 char	*next_goats(t_mimi *shell, char *tmp, int x)
 {
 	int	is;
-
 	is = next_kote(shell->line, '$', 0);
 	if (is < x && is != -1)
 		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
@@ -69,7 +68,6 @@ char	*goats(t_mimi *shell, int x)
 		{
 			c_pos = x;
 			tmp = top_goats(shell, tmp, c_pos);
-		//	printf("tmp goats = %s\n", tmp);///////
 			c_pos = -1;
 			x = -1;
 		}

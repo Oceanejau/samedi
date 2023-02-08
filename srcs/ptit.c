@@ -11,13 +11,11 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void ptit_bidule(t_mimi *shell, int x)
+void	ptit_bidule(t_mimi *shell, int x)
 {
-	shell->tmp = joi(shell->tmp, cpy_from_two_posi(shell, 0, x - 1));
+	shell->tmp = joi(shell->tmp, cftp(shell, 0, x - 1));
 	shell->tmp = joi(shell->tmp, ft_itoaa(g_ret));
 	shell->t = re_ptit_bidule(shell, 1);
-	//free(shell->t);
-	//exit(0);
 	return ;
 }
 
@@ -57,7 +55,6 @@ char	*dol_fin(t_mimi *shell)
 		if (shell->same == 1)
 			shell->line = NULL;
 	}
-//	printf("tmp dol fin == %s\n", shell->tmp);///
 	return (shell->tmp);
 }
 
@@ -65,7 +62,6 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 {
 	char	*copy;
 
-	//printf("bout d freeeeeeee= t = %s, x = %d, y = %d\n", shell->t, x, y);
 	if (shell->fre != 1)
 	{
 		copy = ft_strdup(shell->t);
@@ -82,6 +78,5 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 	}
 	if (shell->fre != 1 && shell->t == NULL && shell->same == 1)
 		ptit_free(shell);
-	//printf("ptit bout d free %s\n", shell->t);
 	return (shell->t);
 }

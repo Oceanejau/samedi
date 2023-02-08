@@ -6,11 +6,11 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 14:13:28 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 11:43:36 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/07 19:33:38 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
 int	infile_modif(char *file)
 {
@@ -19,7 +19,8 @@ int	infile_modif(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (perror(file), 1);
-	dup2(fd, STDIN_FILENO);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (perror(file), close(fd), 1);
 	close(fd);
 	return (0);
 }

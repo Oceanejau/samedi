@@ -6,13 +6,13 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 23:41:30 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/25 18:13:18 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/08 16:36:33 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static int	count_pipe(t_list *list)
+static int	count_pipe_list(t_list *list)
 {
 	int		i;
 	t_list	*temp;
@@ -75,7 +75,7 @@ char	***list_to_block(t_list *list)
 	int		i;
 	char	***block;
 
-	i = count_pipe(list);
+	i = count_pipe_list(list);
 	block = ft_calloc(i + 1, sizeof(char **));
 	if (!block)
 		return (NULL);

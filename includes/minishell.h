@@ -30,6 +30,7 @@
 # define PIPE 1
 # define REDIR 2
 # define QUOTE 3
+# define NAMEFILE 4
 
 typedef struct s_list
 {
@@ -90,9 +91,9 @@ typedef struct s_mimi
 
 extern int		g_ret;
 
-int		modif_list_quote(t_mimi *shell);
+void	modif_list_quote(t_mimi *shell);
 char	*ft_itoaa(int n);
-char	*cpy_from_two_posi(t_mimi *shell, int s, int e);
+char	*cftp(t_mimi *shell, int s, int e);
 int		str_c(char *str, char c);
 char	*dollary(char *str, t_mimi *shell, int x);
 char	*find_env(char *str, t_mimi *shell);
@@ -142,7 +143,7 @@ void	set_struct(t_mimi *shell, char **envp);
 char	**next_hd(t_mimi *shell, int x);
 int		next_kote(char *str, char c, int x);
 int		check_for_quotes(t_mimi *shell, char c);
-int		mani(t_mimi *shell, int x);
+void	mani(t_mimi *shell, int x);
 char	*repartiteur(t_mimi *shell, int x, char *str);
 char	**malloc_char_et_et(int size);
 char	*copy_char_et(char *str);
@@ -155,5 +156,8 @@ void	ptit_free(t_mimi *shell);
 char	*re_ptit_bidule(t_mimi *shell, int x);
 void	ptit_bidule(t_mimi *shell, int x);
 void	show_list(t_mimi *shell);
+void	mani_free(t_mimi *shell, char *str);
+char	*dol_else(t_mimi *shell, int x);
+void	dolly(t_mimi *shell, int x);
 
 #endif

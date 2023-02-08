@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_cmd.c                                         :+:      :+:    :+:   */
+/*   is_it_txt.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 11:33:56 by wmari             #+#    #+#             */
-/*   Updated: 2023/02/08 15:22:26 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/02 11:39:54 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 15:23:34 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-char	*find_cmd(t_mimi *shell, int index)
+int	is_it_txt(char ***block, int index, int ind2, t_mimi *shell)
 {
-	int		count_pipe;
 	t_list	*temp;
+	int		comp_ind;
+	int		comp_n;
 
+	(void)block;
 	temp = shell->list;
-	count_pipe = 0;
-	while (count_pipe != index)
+	comp_ind = 0;
+	comp_n = 0;
+	while (temp && comp_ind != index)
 	{
 		if (temp->type == PIPE)
-			count_pipe++;
+			comp_ind++;
 		temp = temp->next;
 	}
-	while (temp)
+	while (temp && comp_n != ind2)
 	{
-		if (temp->type == TXT || temp->type == QUOTE)
-			return (ft_strdup(temp->str));
 		temp = temp->next;
+		comp_n++;
 	}
-	return (NULL);
+	if (temp->type == TXT || temp->type == QUOTE)
+		return (1);
+	return (0);
 }

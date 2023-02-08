@@ -11,28 +11,47 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	modif_list_quote(t_mimi *shell)
+void	ret_et_free(char *str, int x, t_mimi *shell, t_list *new)
+{
+	if (x == 2 && new != NULL)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(new->str, 2);
+		ft_putstr_fd("'\n", 2);
+	}
+	else if (x == 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("memory\n", 2);
+	}
+	mani_free(shell, malicious("truc"));
+}
+
+void	modif_list_quote(t_mimi *shell)
 {
 	t_list	*new;
 
 	new = shell->list;
-	while (new != NULL)
+	while (new && new != NULL)
 	{
-		if (new->type == 3)
+		if (new->type == QUOTE)
 		{
 			free(new->str);
-		///////option malloc '\0'/////////
 			new->str = (char *)malloc(sizeof(char) * 1);
 			if (!new->str)
-				return (-1);// free toute la liste
+				return (ret_et_free("failed to allocate ", 1, shell, new));
 			new->str[0] = '\0';
-		/////fin de l'option malloc '\0'/////
-		//
-		///////option NULL//////
-			//new->str = NULL;
-		///////fin option NULL///////
 		}
-		new = new->next;
+		if (new->type == REDIR)
+		{
+			new = new->next;
+			if (new != NULL && new->type == TXT)
+				new->type = NAMEFILE;
+			else
+				return (ret_et_free(NULL, 2, shell, new));
+		}
+		else
+			new = new->next;
 	}
-	return (0);
 }

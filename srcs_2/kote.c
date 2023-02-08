@@ -54,7 +54,7 @@ void	mani_free(t_mimi *shell, char *str)
 	free(str);
 }
 
-int	mani(t_mimi *shell, int x)
+void	mani(t_mimi *shell, int x)
 {
 	char	*str;
 
@@ -63,6 +63,7 @@ int	mani(t_mimi *shell, int x)
 	str = NULL;
 	while (shell->line != NULL && shell->line[x] != '\0')
 	{
+		shell->ret = 0;
 		if (str_c(shell->instr, shell->line[x]) != 10
 			|| shell->line[x + 1] == '\0')
 		{

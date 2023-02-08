@@ -36,6 +36,7 @@ char	*joi(char *s1, char *s2)
 	int		y;
 
 	x = -1;
+	printf("S1 = %s, S2 %s\n", s1, s2);
 	if (s1 == NULL || s2 == NULL)
 		return (join_fr(s1, s2));
 	tmp = (char *)malloc(sizeof(char) * ((int)ft_strlenn(s1)
@@ -45,7 +46,6 @@ char	*joi(char *s1, char *s2)
 	while (s1[++x] != '\0')
 		tmp[x] = s1[x];
 	y = -1;
-	//printf("x = %d, s1 = %s s2 %s\n", x, s1, s2);
 	while (s2[++y] != '\0')
 		tmp[x + y] = s2[y];
 	tmp[x + y] = '\0';

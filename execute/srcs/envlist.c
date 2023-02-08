@@ -6,11 +6,11 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 08:00:00 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 13:32:01 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/07 19:33:38 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
 void	make_envlist(t_mimi *shell)
 {

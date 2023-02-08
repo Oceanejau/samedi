@@ -5,37 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 19:48:27 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 12:18:55 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 13:01:09 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:31:17 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block, t_mimi *shell)
+static void	add_stuff_export(char *str, t_list *temp)
 {
-	int	i;
-	int	j;
+	char	*copy;
+	char	*copy2;
+	char	*copy3;
 
-	i = 0;
-	if (block)
-	{
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
-		free_list(shell);
-	}
+	copy = ft_strdup(temp->str);
+	free(temp->str);
+	copy3 = ft_strjoin(":", ft_strchr(str, '=') + 1);
+	copy2 = ft_strjoin(copy, copy3);
+	temp->str = ft_strdup(copy2);
+	free(copy3);
+	free(copy2);
+	free(copy);
 }
 
 static int	check_valid_arg(char *str)
@@ -91,29 +81,38 @@ static void	do_stuff_valid(char *str, t_mimi *shell)
 	}
 }
 
-int	ft_export(char ***block, int index, t_mimi *shell)
+static int	return_exit(char ***block, char **args, t_mimi *shell, int *fbp)
 {
-	int		i;
+	int	cmd;
 
-	i = 0;
-	while (block[index][++i])
+	cmd = count_pipe(shell);
+	free_tab(args);
+	if (cmd)
 	{
-		do_stuff_valid(block[index][i], shell);
-		i++;
+		free_block(block);
+		free_tab(shell->env);
+		free_env(shell);
+		free_list(shell);
+		free_sfd(shell->save_fd);
+		close(*fbp);
+		exit(0);
 	}
-	free_block(block, shell);
 	return (0);
 }
 
-int	ft_soloexport(char ***block, int index, t_mimi *shell)
+int	ft_export(char ***block, int index, t_mimi *shell, int *fbp)
 {
 	int		i;
+	char	**args;
 
+	args = create_args(block, index, shell);
+	if (!args)
+		return_error(block, fbp, shell);
 	i = 1;
-	while (block[index][i])
+	while (args[i])
 	{
-		do_stuff_valid(block[index][i], shell);
+		do_stuff_valid(args[i], shell);
 		i++;
 	}
-	return (0);
+	return (return_exit(block, args, shell, fbp));
 }

@@ -24,5 +24,6 @@ char	*repartiteur(t_mimi *shell, int x, char *str)
 		str = do_red(shell, x, shell->line[x]);
 	else
 		str = do_end(shell);
+	printf("LINE rep = %s\n", shell->line);
 	return (str);
 }

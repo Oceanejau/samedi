@@ -31,9 +31,10 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs_2/tab_et_et.c\
 				srcs_2/modif_list_quote.c\
 				srcs_2/show_list.c\
-				srcs/cpy_from_two_pos.c\
 				srcs/ptit.c\
 				srcs/dollar.c\
+				srcs/cftp.c\
+				srcs/dol_else.c\
 				srcs/find_env.c\
 				srcs/ft_is.c\
 				srcs/ft_itoaa.c\
@@ -44,22 +45,32 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				srcs/char_err.c\
 				srcs/malicious.c\
 				srcs/where_is_charly.c\
-				execute/srcs/better_exec.c\
-				execute/srcs/builtin_lookup.c\
 				execute/srcs/create_args.c\
-				execute/srcs/deal_with_redir.c\
+				execute/srcs/envlist.c\
+				execute/srcs/exec_bin_parent.c\
 				execute/srcs/exec_bin.c\
-				execute/srcs/execute_stuff.c\
+				execute/srcs/exec_builtin.c\
+				execute/srcs/exec_child_stuff.c\
+				execute/srcs/exec_stuff.c\
+				execute/srcs/execute.c\
 				execute/srcs/find_cmd.c\
 				execute/srcs/find_path.c\
-				execute/srcs/ft_tabstradd.c\
+				execute/srcs/free_stuff.c\
+				execute/srcs/heredoc_utils.c\
+				execute/srcs/heredoc.c\
 				execute/srcs/infile_modif.c\
-				execute/srcs/is_redir.c\
+				execute/srcs/is_it_txt.c\
 				execute/srcs/list_to_block.c\
 				execute/srcs/nb_cmd.c\
 				execute/srcs/outfile_dou_modif.c\
 				execute/srcs/outfile_modif.c\
-				execute/srcs/skip_redir.c\
+				execute/srcs/redir_stuff.c\
+				execute/srcs/reset_fd.c\
+				execute/srcs/signal_stuff.c\
+				execute/srcs/wait_stuff.c\
+				execute/builtin/builtin_finder.c\
+				execute/builtin/builtin_utils.c\
+				execute/builtin/exec_built.c\
 				execute/builtin/ft_cd.c\
 				execute/builtin/ft_echo.c\
 				execute/builtin/ft_env.c\
@@ -67,13 +78,7 @@ SRCS		=	srcs_2/cpy_from_two_pos.c\
 				execute/builtin/ft_export.c\
 				execute/builtin/ft_pwd.c\
 				execute/builtin/ft_unset.c\
-				execute/srcs/envlist.c\
-				execute/srcs/signal_stuff.c\
-				execute/srcs/reset_fd.c\
-				execute/srcs/free_shell.c\
-				execute/builtin/builtin_utils.c\
-				execute/srcs/heredoc.c\
-				execute/srcs/heredoc_utils.c\
+				execute/srcs/exec_empty.c\
 
 
 OBJS		=	$(SRCS:.c=.o)

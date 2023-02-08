@@ -6,11 +6,11 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:30:23 by wmari             #+#    #+#             */
-/*   Updated: 2022/12/07 11:45:25 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/08 16:28:39 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
 int	nb_cmd(char ***block)
 {

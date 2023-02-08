@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cpy_from_two_pos.c                                 :+:      :+:    :+:   */
+/*   cftp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ojauregu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-char	*cpy_from_two_posi(t_mimi *shell, int s, int e)
+char	*cftp(t_mimi *shell, int s, int e)
 {
 	char	*tmp;
 	int		x;
@@ -25,6 +25,5 @@ char	*cpy_from_two_posi(t_mimi *shell, int s, int e)
 	while (s < e)
 		tmp[x++] = shell->t[s++];
 	tmp[x] = '\0';
-//	printf("TMP = %s, %s\n", tmp, shell->t);
 	return (tmp);
 }

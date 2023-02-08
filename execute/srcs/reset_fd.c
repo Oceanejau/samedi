@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:30:21 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/25 14:04:42 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/07 13:20:28 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	reset_fd(int *savefd)
 	return (0);
 }
 
-int	free_fd(int *savefd)
+int	free_sfd(int *savefd)
 {
 	close(savefd[0]);
 	close(savefd[1]);

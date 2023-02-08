@@ -6,11 +6,11 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:01:31 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/30 22:53:05 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/07 19:33:38 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
 static int	heredoc(t_mimi *shell, int index)
 {

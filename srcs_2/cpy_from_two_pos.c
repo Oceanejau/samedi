@@ -17,6 +17,7 @@ char	*cpy_from_two_pos(char *str, int s, int e)
 	int		x;
 
 	x = 0;
+//	printf("str = %s,s =%d,e = %d\n", str, s, e);//
 	if (str == NULL || s == e)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));

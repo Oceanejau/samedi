@@ -5,36 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 14:08:13 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 17:33:16 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 10:46:04 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:30:43 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_block(char ***block)
+int	return_error(char ***block, int *fbp, t_mimi *shell)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	if (block)
+	ft_putstr_fd("Error, can't create arguments\n", STDERR_FILENO);
+	if (count_pipe(shell))
 	{
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
+		free_block(block);
+		close(*fbp);
+		free_list(shell);
+		free_tab(shell->env);
+		free_env(shell);
+		free_sfd(shell->save_fd);
+		exit(1);
 	}
+	return (1);
+}
+
+static void	error_msg_cd(char **args, char ***block, t_mimi *shell, char *save)
+{
+	ft_putstr_fd("cd: ", STDERR_FILENO);
+	ft_putstr_fd(args[1], STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	free_alloc_cd(block, shell, save, args);
 }
 
 static void	add_oldpwd(t_mimi *shell, char *str)
@@ -62,7 +63,7 @@ static void	add_oldpwd(t_mimi *shell, char *str)
 	}
 }
 
-static int	do_home(t_mimi *shell, char *save)
+static void	do_home(t_mimi *shell, char *save)
 {
 	t_list	*temp;
 	char	*str;
@@ -82,58 +83,34 @@ static int	do_home(t_mimi *shell, char *save)
 		free(str);
 	}
 	else
-		printf("cd: HOME not set\n");
-	return (0);
+		ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
 }
 
-int	ft_cd( char ***block, int index, t_mimi *shell)
+int	ft_cd(char ***block, int index, t_mimi *shell, int *fbp)
 {
-	int		n;
 	char	*save;
+	char	**args;
 
-	n = 0;
-	while (block[index][n])
-		n++;
-	if (n > 2)
-		return (printf("cd: too many arguments\n"), 1);
+	if (nb_args(block[index]) > 2)
+		return (ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO),
+			free_block(block), 1);
+	args = create_args(block, index, shell);
+	if (!args)
+		return (return_error(block, fbp, shell));
 	save = ft_calloc(sizeof(char), 1024);
+	if (!save)
+		return (free_tab(args), return_error(block, fbp, shell));
 	getcwd(save, 1023);
-	if (block[index][1])
+	if (args[1])
 	{
-		if (!chdir(block[index][1]))
+		if (!chdir(args[1]))
 			add_oldpwd(shell, save);
 	}
 	else
 		do_home(shell, save);
+	if (count_pipe(shell))
+		close (*fbp);
 	if (errno)
-		return (free(save), printf("cd: %s: %s\n", block[index][1],
-			strerror(errno)), 1);
-	free_block(block);
-	free_list(shell);
-	return (free(save), 0);
-}
-
-int	ft_solocd(char ***block, int index, t_mimi *shell)
-{
-	int		n;
-	char	*save;
-
-	n = 0;
-	while (block[index][n])
-		n++;
-	if (n > 2)
-		return (printf("cd: too many arguments\n"), 1);
-	save = ft_calloc(sizeof(char), 1024);
-	getcwd(save, 1023);
-	if (block[index][1])
-	{
-		if (!chdir(block[index][1]))
-			add_oldpwd(shell, save);
-	}
-	else
-		do_home(shell, save);
-	if (errno)
-		return (free(save), printf("cd: %s: %s\n", block[index][1],
-			strerror(errno)), 1);
-	return (free(save), 0);
+		return (error_msg_cd(args, block, shell, save), 1);
+	return (free_alloc_cd(block, shell, save, args));
 }

@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 17:36:12 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 12:19:44 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/07 13:24:30 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/08 16:31:35 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
 static void	poplist(t_mimi *shell, t_list *pop)
 {
@@ -36,45 +36,60 @@ static void	poplist(t_mimi *shell, t_list *pop)
 	}
 }
 
-static void	free_block(char ***block)
+static int	error_unset(char ***block, t_mimi *shell, int *fbp)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	if (block)
-	{	
-		while (block[i])
-		{
-			j = 0;
-			while (block[i][j])
-			{
-				free(block[i][j]);
-				j++;
-			}
-			free(block[i][j]);
-			free(block[i]);
-			i++;
-		}
-		free(block[i]);
-		free(block);
+	ft_putstr_fd("Error, can't create arguments\n", STDERR_FILENO);
+	if (count_pipe(shell))
+	{
+		free_block(block);
+		close(*fbp);
+		free_list(shell);
+		free_tab(shell->env);
+		free_env(shell);
+		free_sfd(shell->save_fd);
+		exit(1);
 	}
+	return (1);
 }
 
-int	ft_solounset(char ***block, int index, t_mimi *shell)
+static int	return_normal_unset(
+	char ***block,
+	t_mimi *shell,
+	int *fbp,
+	char **args)
+{
+	free_tab(args);
+	if (count_pipe(shell))
+	{
+		free_block(block);
+		close(*fbp);
+		free_list(shell);
+		free_tab(shell->env);
+		free_env(shell);
+		free_sfd(shell->save_fd);
+		exit(0);
+	}
+	return (0);
+}
+
+int	ft_unset(char ***block, int index, t_mimi *shell, int *fbp)
 {
 	int		i;
+	char	**args;
 	t_list	*temp;
 
+	args = create_args(block, index, shell);
+	if (!args)
+		return (error_unset(block, shell, fbp));
 	i = 0;
-	while (block[index][i])
+	while (args[i])
 	{
 		temp = shell->envlist;
 		while (temp)
 		{
-			if (!ft_strncmp(block[index][i], temp->str,
-				ft_strlen(block[index][i]))
-				&& temp->str[ft_strlen(block[index][i])] == '=')
+			if (!ft_strncmp(args[i], temp->str,
+					ft_strlen(args[i]))
+				&& temp->str[ft_strlen(args[i])] == '=')
 			{
 				poplist(shell, temp);
 				break ;
@@ -83,32 +98,5 @@ int	ft_solounset(char ***block, int index, t_mimi *shell)
 		}
 		i++;
 	}
-	return (0);
-}
-
-int	ft_unset(char ***block, int index, t_mimi *shell)
-{
-	int		i;
-	t_list	*temp;
-
-	i = 0;
-	while (block[index][i])
-	{
-		temp = shell->envlist;
-		while (temp)
-		{
-			if (!ft_strncmp(block[index][i], temp->str,
-				ft_strlen(block[index][i]))
-				&& temp->str[ft_strlen(block[index][i])] == '=')
-			{
-				poplist(shell, temp);
-				break ;
-			}
-			temp = temp->next;
-		}
-		i++;
-	}
-	free_block(block);
-	free_list(shell);
-	return (0);
+	return (return_normal_unset(block, shell, fbp, args));
 }

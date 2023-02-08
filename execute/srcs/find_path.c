@@ -5,47 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 16:04:16 by wmari             #+#    #+#             */
-/*   Updated: 2023/01/31 17:54:19 by wmari            ###   ########.fr       */
+/*   Created: 2023/02/02 15:37:28 by wmari             #+#    #+#             */
+/*   Updated: 2023/02/07 19:33:38 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execute.h"
+#include "execute.h"
 
-static void	free_all(char **str)
-{
-	int	n;
-
-	n = 0;
-	if (str)
-	{
-		while (str[n])
-			free(str[n++]);
-		free(str[n]);
-		free(str);
-	}
-}
-
-static char	*my_getenv(t_mimi *shell)
-{
-	t_list	*temp;
-
-	temp = shell->envlist;
-	while (temp)
-	{
-		if (!check_same_till_equals(temp->str, "PATH="))
-			return (temp->str);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-static char	*test_for_first(char **split, char *cmd)
+static char	*get_first_path(char *split, char *cmd)
 {
 	char	*temp;
 	char	*temp2;
 
-	temp = ft_strdup(split[0] + 5);
+	temp = ft_strdup(split + 5);
+	if (!temp)
+		return (NULL);
 	temp2 = ft_strjoin(temp, "/");
 	free(temp);
 	temp = ft_strjoin(temp2, cmd);
@@ -56,31 +30,70 @@ static char	*test_for_first(char **split, char *cmd)
 	return (NULL);
 }
 
-char	*find_path(char *cmd, t_mimi *shell)
+static char	*get_path(char *split, char *cmd)
+{
+	char	*temp;
+	char	*temp2;
+
+	temp = ft_strjoin("/", cmd);
+	if (!temp)
+		return (NULL);
+	temp2 = ft_strjoin(split, temp);
+	if (!temp2)
+		return (free(temp), NULL);
+	return (free(temp), temp2);
+}
+
+static int	is_there_path(t_mimi *shell)
+{
+	t_list	*temp;
+
+	temp = shell->envlist;
+	while (temp)
+	{
+		if (!ft_strncmp(temp->str, "PATH=", 5))
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
+}
+
+static char	*getpath(t_mimi *shell)
+{
+	t_list	*temp;
+
+	temp = shell->envlist;
+	while (temp)
+	{
+		if (!ft_strncmp(temp->str, "PATH=", 5))
+			return (temp->str);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
+char	*find_path(char *cmd, t_mimi *shell, int n)
 {
 	char	**splited_path;
 	char	*temp;
-	char	*temp2;
-	int		n;
 
-	if (my_getenv(shell) == NULL)
-		return (cmd);
-	splited_path = ft_split(my_getenv(shell), ':');
-	if (splited_path == NULL)
+	if (is_there_path(shell))
+		return (ft_strdup(cmd));
+	splited_path = ft_split(getpath(shell), ':');
+	if (!splited_path)
 		return (NULL);
-	n = 1;
-	temp = test_for_first(splited_path, cmd);
+	temp = get_first_path(splited_path[0], cmd);
 	if (temp)
-		return (free_all(splited_path), temp);
+		return (free_tab(splited_path), temp);
 	while (splited_path[n])
 	{
-		temp2 = ft_strjoin("/", cmd);
-		temp = ft_strjoin(splited_path[n++], temp2);
-		free(temp2);
+		temp = get_path(splited_path[n++], cmd);
+		if (!temp)
+			return (free_tab(splited_path), NULL);
 		if (access(temp, F_OK & X_OK) == 0)
-			return (free_all(splited_path), temp);
+			return (free_tab(splited_path), temp);
 		free(temp);
 	}
 	temp = ft_strdup(cmd);
-	return (free_all(splited_path), temp);
+	return (free_tab(splited_path), temp);
 }

@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 15:28:17 by ojauregu          #+#    #+#             */
-/*   Updated: 2023/02/08 15:28:19 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/09 16:28:15 by ojauregu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ret_nb(int ret, char *msg, t_mimi *shell)
 
 void	starter(t_mimi *shell)
 {
+	shell->quote = 0;
+	shell->nb_hd = 0;
 	catch_signal(MAIN);
 	free_envchar(shell);
 	shell->env = envlist_to_env(shell->envlist);

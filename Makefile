@@ -96,7 +96,7 @@ sanity		:	$(NAME_SAN)
 
 $(NAME_SAN)	:	$(OBJS)
 				@$(MAKE) -C ./execute/libft bonus
-				$(CC) $(FLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME_SAN) execute/libft/libft.a
+				@$(CC) $(FLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME_SAN) execute/libft/libft.a
 
 clean		:
 				@rm -rf $(OBJS)
@@ -109,4 +109,4 @@ fclean		:	clean
 re			:	fclean all
 
 .PHONY		:	all clean fclean re sanity
-#.SILENT		:
+.SILENT		:

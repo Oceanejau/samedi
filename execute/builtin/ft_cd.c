@@ -6,26 +6,33 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:46:04 by wmari             #+#    #+#             */
-/*   Updated: 2023/02/08 16:30:43 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/09 16:23:46 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	return_error(char ***block, int *fbp, t_mimi *shell)
+static void	maj_pwd(t_mimi *shell)
 {
-	ft_putstr_fd("Error, can't create arguments\n", STDERR_FILENO);
-	if (count_pipe(shell))
+	char	*str;
+	t_list	*temp;
+
+	str = ft_calloc(sizeof(char), 1024);
+	if (!str)
+		return ;
+	getcwd(str, 1023);
+	temp = shell->envlist;
+	while (temp)
 	{
-		free_block(block);
-		close(*fbp);
-		free_list(shell);
-		free_tab(shell->env);
-		free_env(shell);
-		free_sfd(shell->save_fd);
-		exit(1);
+		if (!check_same_till_equals("PWD=", temp->str))
+		{
+			free(temp->str);
+			temp->str = ft_strjoin("PWD=", str);
+			break ;
+		}
+		temp = temp->next;
 	}
-	return (1);
+	free(str);
 }
 
 static void	error_msg_cd(char **args, char ***block, t_mimi *shell, char *save)
@@ -112,5 +119,5 @@ int	ft_cd(char ***block, int index, t_mimi *shell, int *fbp)
 		close (*fbp);
 	if (errno)
 		return (error_msg_cd(args, block, shell, save), 1);
-	return (free_alloc_cd(block, shell, save, args));
+	return (maj_pwd(shell), free_alloc_cd(block, shell, save, args));
 }

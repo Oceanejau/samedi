@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:04:44 by wmari             #+#    #+#             */
-/*   Updated: 2023/02/08 16:30:04 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/09 16:23:50 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,20 @@ int	nb_args(char **tab)
 	while (tab[n])
 		n++;
 	return (n);
+}
+
+int	return_error(char ***block, int *fbp, t_mimi *shell)
+{
+	ft_putstr_fd("Error, can't create arguments\n", STDERR_FILENO);
+	if (count_pipe(shell))
+	{
+		free_block(block);
+		close(*fbp);
+		free_list(shell);
+		free_tab(shell->env);
+		free_env(shell);
+		free_sfd(shell->save_fd);
+		exit(1);
+	}
+	return (1);
 }

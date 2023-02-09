@@ -17,7 +17,23 @@ char	*cpy_from_two_pos(char *str, int s, int e)
 	int		x;
 
 	x = 0;
-//	printf("str = %s,s =%d,e = %d\n", str, s, e);//
+	if (str == NULL || s == e)
+		return (NULL);
+	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));
+	if (!tmp)
+		return (char_err("failed to allocate memory", 2));
+	while (s < e)
+		tmp[x++] = str[s++];
+	tmp[x] = '\0';
+	return (tmp);
+}
+
+char	*c_ftp(char *str, int s, int e)
+{
+	char	*tmp;
+	int		x;
+
+	x = 0;
 	if (str == NULL || s == e)
 		return (NULL);
 	tmp = (char *)malloc(sizeof(char) * ((e - s) + 1));

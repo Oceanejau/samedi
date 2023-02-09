@@ -19,7 +19,7 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 
 	tmp = NULL;
 	if (c_pos > 0 && shell->line[c_pos - 1] == '$')
-		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, c_pos), shell, 0));
+		tmp = join(tmp, dollary(c_ftp(shell->line, 0, c_pos), shell, 0));
 	else
 		tmp = cpy_from_two_pos(shell->line, 0, c_pos);
 	if (str == NULL && shell->line[0] == 34 && shell->line[1] == 34
@@ -34,7 +34,7 @@ char	*inside_kote_34(char *str, t_mimi *shell, int x, int c_pos)
 	tmpp = cpy_from_two_pos(shell->line, c_pos + 1, x);
 	shell->line = join(NULL, cut_in(shell->line, x + 1));
 	if (next_kote(tmpp, '$', 0) >= 0)
-		tmpp = join(NULL, dollary(tmpp, shell, next_kote(tmpp, '$', 0)));
+		tmpp = join(NULL, dollar(tmpp, shell, next_kote(tmpp, '$', 0)));
 	tmp = join(tmp, tmpp);
 	tmp = join(str, tmp);
 	return (tmp);
@@ -45,7 +45,6 @@ char	*inside_kote_39(char *str, t_mimi *shell, int x, int c_pos)
 	char	*tmp;
 
 	tmp = NULL;
-	printf("entre dans 39, c_pos = %d\n", c_pos);
 	if (str == NULL && shell->line[0] == 39 && shell->line[1] == 39
 		&& (str_c(shell->instr, shell->line[2]) < 2 || shell->line[2] == '\0'))
 	{
@@ -53,7 +52,7 @@ char	*inside_kote_39(char *str, t_mimi *shell, int x, int c_pos)
 		shell->type = QUOTE;
 	}
 	if (c_pos > 0 && where_is_charly(shell->line, 0, '$') < c_pos)
-		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, c_pos), shell, 0));
+		tmp = join(tmp, dollary(c_ftp(shell->line, 0, c_pos), shell, 0));
 	else
 		tmp = join(tmp, cpy_from_two_pos(shell->line, 0, c_pos));
 	tmp = join(tmp, cpy_from_two_pos(shell->line, c_pos + 1, x));

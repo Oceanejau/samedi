@@ -6,7 +6,7 @@
 /*   By: wmari <wmari@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:04:11 by wmari             #+#    #+#             */
-/*   Updated: 2023/02/08 16:29:48 by wmari            ###   ########.fr       */
+/*   Updated: 2023/02/09 16:05:35 by wmari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ static int	return_echo_child(
 static int	deal_flags(char *str)
 {
 	int	i;
-//	int	flag;
 
 	i = 0;
-//	flag = 1;
 	if (str[0] == '-' && str[1] == 'n')
 	{
 		i = 2;

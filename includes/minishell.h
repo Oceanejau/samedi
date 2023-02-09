@@ -59,8 +59,10 @@ typedef struct s_mimi
 	int			fin;
 	int			vent;
 	int			tip;
+	int			exp;
 	int			type;
 	int			nb_hd;
+	int			kote;
 	int			index;
 	int			ferme;
 	char		*t;
@@ -91,11 +93,14 @@ typedef struct s_mimi
 
 extern int		g_ret;
 
+char	*find_env39(char *str, t_mimi *shell);
+char	*c_ftp(char *str, int s, int e);
 void	modif_list_quote(t_mimi *shell);
 char	*ft_itoaa(int n);
 char	*cftp(t_mimi *shell, int s, int e);
 int		str_c(char *str, char c);
 char	*dollary(char *str, t_mimi *shell, int x);
+char	*dollar(char *str, t_mimi *shell, int x);
 char	*find_env(char *str, t_mimi *shell);
 char	*ft_itoaa(int n);
 int		ft_is_nb(char c);
@@ -150,14 +155,7 @@ char	*copy_char_et(char *str);
 char	**error_copy_char_et_et(char **tmp, int size);
 char	**copy_char_et_et(char **str);
 void	free_list(t_mimi *shell);
-char	*ptit_bout_d_free(t_mimi *shell, int x, int y);
-char	*dol_fin(t_mimi *shell);
-void	ptit_free(t_mimi *shell);
-char	*re_ptit_bidule(t_mimi *shell, int x);
-void	ptit_bidule(t_mimi *shell, int x);
 void	show_list(t_mimi *shell);
 void	mani_free(t_mimi *shell, char *str);
-char	*dol_else(t_mimi *shell, int x);
-void	dolly(t_mimi *shell, int x);
 
 #endif

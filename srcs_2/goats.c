@@ -26,8 +26,8 @@ char	*goty(t_mimi *shell, char *msg, int ret, char c)
 char	*next_goats(t_mimi *shell, char *tmp, int x)
 {
 	int	is;
+
 	is = next_kote(shell->line, '$', 0);
-	printf("line = %s, tmp = %s, x = %d, is = %d\n", shell->line, tmp, x, is);
 	if (is < x && is != -1)
 		tmp = join(tmp, dollary(cpy_from_two_pos(shell->line, 0, x), shell, 0));
 	else
@@ -42,12 +42,11 @@ char	*top_goats(t_mimi *shell, char *tmp, int c_pos)
 	char	c;
 
 	x = c_pos;
-	c = shell->line[c_pos];//reduire lignes
-	shell->c = c;//reduire lignes
+	c = shell->line[c_pos];
+	shell->c = c;
 	x = next_kote(shell->line, shell->line[x], x + 1);
-	printf("top goast line = %s, tmp = %s, x = %d, cpos = %d, c = %c\n", shell->line, tmp, x, c_pos, c);
 	if (x == -1)
-		return (goty(shell, "missing kote -", 2, c));
+		return (free(tmp), goty(shell, "missing kote -", 2, c));
 	else if (c == 34)
 		tmp = inside_kote_34(tmp, shell, x, c_pos);
 	else
@@ -78,6 +77,6 @@ char	*goats(t_mimi *shell, int x)
 	if (c_pos == -1 && shell->line)
 		tmp = next_goats(shell, tmp, x);
 	else if (c_pos != -1)
-		return (goty(shell, "missing kote -", 2, shell->c));
+		return (free(tmp), goty(shell, "missing kote -", 2, shell->c));
 	return (tmp);
 }

@@ -58,8 +58,6 @@ void	mani(t_mimi *shell, int x)
 {
 	char	*str;
 
-	shell->quote = 0;
-	shell->nb_hd = 0;
 	str = NULL;
 	while (shell->line != NULL && shell->line[x] != '\0')
 	{

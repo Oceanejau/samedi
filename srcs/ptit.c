@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
+/*
 void	ptit_bidule(t_mimi *shell, int x)
 {
 	shell->tmp = joi(shell->tmp, cftp(shell, 0, x - 1));
@@ -79,4 +79,4 @@ char	*ptit_bout_d_free(t_mimi *shell, int x, int y)
 	if (shell->fre != 1 && shell->t == NULL && shell->same == 1)
 		ptit_free(shell);
 	return (shell->t);
-}
+}*/

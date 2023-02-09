@@ -90,7 +90,7 @@ all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
 				@$(MAKE) -C ./execute/libft bonus
-				@$(CC) $(CFLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME) execute/libft/libft.a
+				$(CC) $(CFLAGS) -I $(INCLUDES) $(OBJS) $(LFLAGS) -o $(NAME) execute/libft/libft.a
 
 sanity		:	$(NAME_SAN)
 
@@ -109,4 +109,4 @@ fclean		:	clean
 re			:	fclean all
 
 .PHONY		:	all clean fclean re sanity
-.SILENT		:
+#.SILENT		:

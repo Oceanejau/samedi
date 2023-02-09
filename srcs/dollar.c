@@ -91,6 +91,7 @@ char	*dollary(char*str, t_mimi *shell, int x)
 
 	shell->tmp = NULL;
 	shell->t = str;
+	printf("str = %s\n", shell->t);
 	while (shell->t && shell->t[x] != '\0')
 	{
 		y = 0;

@@ -68,7 +68,7 @@ HEADER		=	libft.h
 
 CPLHEADER	=	libft.h.gch
 
-CC			=	clang
+CC			=	cc
 
 CFLAGS		=	-Wall -Werror -Wextra
 
@@ -88,4 +88,4 @@ re			:	fclean all
 bonus		:	$(OBJS) $(BONUSOBJS)
 				@ar rcs $(NAME) $(OBJS) $(BONUSOBJS) $(HEADER)
 .PHONY: all clean fclean re bonus
-.SILENT:
+#.SILENT:

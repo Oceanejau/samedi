@@ -46,7 +46,7 @@ char	*do_end(t_mimi *shell)
 	{
 		if (str[x] == '$')
 		{
-			tmp = join(tmp, dollary(str, shell, x));
+			tmp = /*join(tmp, */dollaryy(str, shell, x, tmp);//);
 			return (do_end_nxt(shell, tmp, str));
 		}
 		else

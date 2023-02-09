@@ -101,6 +101,7 @@ char	*ft_itoaa(int n);
 char	*cftp(t_mimi *shell, int s, int e);
 int		str_c(char *str, char c);
 char	*dollary(char *str, t_mimi *shell, int x);
+char	*dollaryy(char *str, t_mimi *shell, int x, char *tmp);
 char	*dollar(char *str, t_mimi *shell, int x);
 char	*find_env(char *str, t_mimi *shell);
 char	*ft_itoaa(int n);

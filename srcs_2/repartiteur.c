@@ -13,7 +13,6 @@
 
 char	*repartiteur(t_mimi *shell, int x, char *str)
 {
-	printf("str debut = %s, x = %d\n", shell->line, x);
 	shell->type = TXT;
 	if (str_c(shell->instr, shell->line[x]) < 2)
 		str = do_white(shell, x);
@@ -25,6 +24,5 @@ char	*repartiteur(t_mimi *shell, int x, char *str)
 		str = do_red(shell, x, shell->line[x]);
 	else
 		str = do_end(shell);
-	printf("str de fin = %s\n", str);
 	return (str);
 }

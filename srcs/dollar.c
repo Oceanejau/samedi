@@ -33,6 +33,7 @@ void	dol_suite(t_mimi *shell, int y, int x)
 	t_mimi	reshell;
 
 	reshell = (t_mimi){0};
+	set_struct(&reshell, shell->env);
 	shell->tmp = joi(shell->tmp, cpy_from_two_pos(shell->t, 0, x - 1));
 	shell->f_env = find_env(cftp(shell, x, x + y), shell);
 	if (shell->kote != 39 && shell->f_env != NULL)

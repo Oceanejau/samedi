@@ -62,3 +62,17 @@ void	set_struct(t_mimi *shell, char **envp)
 	g_ret = 0;
 	return ;
 }
+
+void	set_struct_bis(t_mimi *shell)
+{
+	shell->instr[0] = ' ';
+	shell->instr[1] = '\t';
+	shell->instr[2] = '\'';
+	shell->instr[3] = '"';
+	shell->instr[4] = '|';
+	shell->instr[5] = '>';
+	shell->instr[6] = '<';
+	shell->instr[7] = '\0';
+	g_ret = 0;
+	return ;
+}

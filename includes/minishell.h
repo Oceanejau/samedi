@@ -93,6 +93,7 @@ typedef struct s_mimi
 
 extern int		g_ret;
 
+void	set_struct_bis(t_mimi *shell);
 char	*find_env39(char *str, t_mimi *shell);
 char	*c_ftp(char *str, int s, int e);
 void	modif_list_quote(t_mimi *shell);

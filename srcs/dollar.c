@@ -11,20 +11,23 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-t_list	*join_list(t_list *s1, t_list *s2)
+t_list	*join_list(t_list *s1, t_list *s2, t_mimi *shell, t_mimi *reshell)
 {
 	t_list	*new;
 
+	new = NULL;
 	while (s1 && s1 != NULL)
 	{
 		ft_listadd_back(&new, ft_listnew(s1->str, s1->type));
 		s1 = s1->next;
 	}
+	free_list(shell);
 	while (s2 && s2 != NULL)
 	{
 		ft_listadd_back(&new, ft_listnew(s2->str, s2->type));
 		s2 = s2->next;
 	}
+		free_list(reshell);
 	return (new);
 }
 
@@ -49,7 +52,7 @@ void	dol_suite(t_mimi *shell, int y, int x)
 			printf("re\n");
 			shell->tmp = NULL;
 		//	printf("passe le if\n");
-			shell->list = join_list(shell->list, reshell.list);
+			shell->list = join_list(shell->list, reshell.list, shell, &reshell);
 			free(shell->f_env);
 			shell->f_env = NULL;
 		}
